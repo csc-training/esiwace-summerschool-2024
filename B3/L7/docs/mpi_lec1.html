@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>Parallel programming with MPI, part I</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/reveal.js/css/reveal.css">
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/theme/csc-2016/csc.css" id="theme">
+  <link rel="stylesheet" href="/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/theme/csc-2016/fonts.css">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/reveal.js/css/print/pdf.css' : '/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/reveal.js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section class="slide level1 title" data-background-size="contain" data-background-image="/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/theme/csc-2016/img/title-en.png">
+  <h1>Parallel programming with MPI, part I</h1>
+  <p>ESiWACE3-WarmWorld Summer School on HPC for Climate and Weather Applications</p>
+</section>
+
+<section id="contents-for-parts-i-ii" class="slide level1" data-background-size="contain">
+<h1>Contents for parts I &amp; II</h1>
+<ul>
+<li><p>Two lectures + two exercise sessions; examples and exercises in Fortran</p></li>
+<li><p>The basic premise for parallel computing and the key programming models</p></li>
+<li><p>Distributed memory computing and the Message Passing Interface (MPI): why is it needed</p></li>
+<li>How to exchange information between processes
+<ul>
+<li>Part I: simple communication between specific processes/CPUs</li>
+<li>Part II: Continue on process-to-process communication + collective communication (simultaneously across a range of processes)</li>
+</ul></li>
+</ul>
+</section>
+<section id="learning-objectives-part-i" class="slide level1" data-background-size="contain">
+<h1>Learning objectives, part I</h1>
+<ul>
+<li><p>Understand the key concepts of parallel computing</p></li>
+<li><p>Know the difference between distributed and shared memory computing</p></li>
+<li><p>Understand the baseline concept of MPI</p></li>
+<li><p>Ability to write simple programs with process-to-process MPI communication</p></li>
+</ul>
+<!-- - Abilityo write basic level MPI programs, understand most common use cases
+
+
+    - MPI is extensive with hundreds of functions, but meaningful solutions can be built with a handful of tools
+- Know what to look for, know what to expect
+- Encourage to explore further
+-->
+</section>
+<section id="parallel-computing" class="slide level1 section" data-background-size="contain" data-background-image="/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/theme/csc-2016/img/section.png">
+<h1>Parallel computing</h1>
+</section>
+<section id="parallel-computing-1" class="slide level1" data-background-size="contain">
+<h1>Parallel computing</h1>
+<ul>
+<li>Concept
+<ul>
+<li>Divide large problem into smaller subtasks performed simultaneously</li>
+</ul></li>
+<li>Structures in parallel computing</li>
+</ul>
+<p><br></p>
+<div class="column">
+<p style="text-align:center">
+Task parallelism
+</p>
+<img data-src="img/compp.svg" class="center" style="width:60.0%" />
+</div>
+<div class="column">
+<p style="text-align:center">
+Data parallelism
+</p>
+<img data-src="img/eparallel.svg" class="center" style="width:60.0%" />
+</div>
+</section>
+<section id="parallel-computing-2" class="slide level1" data-background-size="contain">
+<h1>Parallel computing</h1>
+<div class="column">
+<ul>
+<li>Real vs ideal scaling
+<ul>
+<li>Overhead: operations introduced by the parallel computing framework</li>
+<li>Load imbalance: Uneven workload between processing units</li>
+</ul></li>
+</ul>
+</div>
+<div class="column">
+<img data-src="img/scaling.png" class="center" style="width:80.0%" />
+</div>
+<ul>
+<li>Weak vs strong scaling: Increased parallelism associated with increasing problem size vs faster execution</li>
+</ul>
+</section>
+<section id="programming-models" class="slide level1 section" data-background-size="contain" data-background-image="/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/theme/csc-2016/img/section.png">
+<h1>Programming models</h1>
+</section>
+<section id="programming-models-1" class="slide level1" data-background-size="contain">
+<h1>Programming models</h1>
+<ul>
+<li><p>Simultaneous execution of processes or threads on different CPU cores</p>
+<ul>
+<li>Processes/tasks
+<ul>
+<li>Message passing interface (MPI)</li>
+<li>Distributed memory computing, multi-node platforms</li>
+<li>Interaction based on explicit messages</li>
+</ul></li>
+<li>Threads
+<ul>
+<li>OpenMP (+ others)</li>
+<li>Interaction through shared memory</li>
+<li>No direct access to threads running on another process and/or node</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="programming-models-2" class="slide level1" data-background-size="contain">
+<h1>Programming models</h1>
+<ul>
+<li>Distributed vs shared memory computation
+<ul>
+<li>Processes vs Threads</li>
+</ul></li>
+</ul>
+<p><img data-src="img/threads_vs_tasks.svg" class="center" style="width:90.0%" /></p>
+</section>
+<section id="programming-models-3" class="slide level1" data-background-size="contain">
+<h1>Programming models</h1>
+<ul>
+<li>Distributed vs shared memory computation
+<ul>
+<li>Processes vs Threads</li>
+</ul></li>
+</ul>
+<p><img data-src="img/threads_vs_tasks_highlight_mpi.svg" class="center" style="width:90.0%" /></p>
+</section>
+<section id="mpi-premise" class="slide level1" data-background-size="contain">
+<h1>MPI Premise</h1>
+<ul>
+<li>Problem divided into multiple processes</li>
+<li>Each has its own memory space</li>
+<li>Explicit communication needed to share data between processes</li>
+</ul>
+<p><img data-src="img/data-model.png" class="center" style="width:90.0%" /></p>
+</section>
+<section id="mpi-processes" class="slide level1" data-background-size="contain">
+<h1>MPI processes</h1>
+<ul>
+<li><p><strong>Independent</strong> execution of the same program code by multiple processes</p></li>
+<li><p>Each process has a unique <em>rank</em> ID (0 … N-1)</p></li>
+<li><p>Different ranks can work on different tasks and/or different data</p></li>
+</ul>
+<div class="column">
+<div class="sourceCode" id="cb1"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">IF</span> (rank <span class="op">==</span> <span class="dv">0</span>) <span class="kw">THEN</span></a>
+<a class="sourceLine" id="cb1-2" title="2">    <span class="kw">CALL</span> doProcedure1()</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">ELSE IF</span> (rank <span class="op">==</span> <span class="dv">1</span>) <span class="kw">THEN</span></a>
+<a class="sourceLine" id="cb1-4" title="4">    <span class="kw">CALL</span> doProcedure2()</a>
+<a class="sourceLine" id="cb1-5" title="5">...</a></code></pre></div>
+</div>
+<div class="column">
+<div class="sourceCode" id="cb2"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">IF</span> (rank <span class="op">==</span> <span class="dv">0</span>) <span class="kw">THEN</span></a>
+<a class="sourceLine" id="cb2-2" title="2">    a<span class="kw">=</span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="kw">ELSE IF</span> (rank <span class="op">==</span> <span class="dv">1</span>) <span class="kw">THEN</span></a>
+<a class="sourceLine" id="cb2-4" title="4">    a<span class="kw">=</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="kw">ELSE IF</span> ...</a>
+<a class="sourceLine" id="cb2-6" title="6">...</a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="kw">END IF</span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="kw">CALL</span> doStuff(a)</a>
+<a class="sourceLine" id="cb2-9" title="9">...</a></code></pre></div>
+</div>
+</section>
+<section id="the-mpi-standard" class="slide level1" data-background-size="contain">
+<h1>The MPI standard</h1>
+<ul>
+<li>Different vendors implementing the standard
+<ul>
+<li>MPICH, openMPI, Cray …</li>
+</ul></li>
+<li><p>Portability – works on a variety of platforms</p></li>
+<li><p>Since 1994, latest version of the standard 4.1 (2023)</p></li>
+</ul>
+</section>
+<section id="the-api" class="slide level1" data-background-size="contain">
+<h1>The API</h1>
+<ul>
+<li>Communcation routines</li>
+<li>Execution control - synchronization</li>
+<li>Advanced features
+<ul>
+<li>User defined datatypes</li>
+<li>Communication topologies; custom <em>communicators</em></li>
+</ul></li>
+<li>== A Lot of stuff, but meaningful solutions can be built with a handful of tools</li>
+</ul>
+</section>
+<section id="things-to-come" class="slide level1" data-background-size="contain">
+<h1>Things to come</h1>
+<img data-src="img/batio.jpeg" class="center" style="width:40.0%" />
+<p style="text-align:center">
+We’re going to give You the keys to the Lamborghini
+</p>
+</section>
+<section id="things-to-come-1" class="slide level1" data-background-size="contain">
+<h1>Things to come</h1>
+<img data-src="img/batio.jpeg" class="center" style="width:40.0%" />
+<p style="text-align:center">
+We’re going to give You the keys to the Lamborghini
+</p>
+<p style="text-align:center">
+…but you’re going to have to drive it!
+</p>
+</section>
+<section id="mpi-programming" class="slide level1 section" data-background-size="contain" data-background-image="/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/theme/csc-2016/img/section.png">
+<h1>MPI programming</h1>
+</section>
+<section id="compiling-and-executing-mpi-programs" class="slide level1" data-background-size="contain">
+<h1>Compiling and executing MPI programs</h1>
+<ul>
+<li>MPI implementations ship with the API library + executables
+<ul>
+<li>Wrappers for compilers - mpicc, mpicxx, mpif90, mpifort …
+<ul>
+<li>Include necessary options and links automatically</li>
+</ul></li>
+</ul></li>
+<li>Launch on Linux workstations: mpiexec, mpirun …</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="ex">mpirun</span> -n 4 ./a.out</a></code></pre></div>
+</section>
+<section id="compiling-and-executing-mpi-programs-1" class="slide level1" data-background-size="contain">
+<h1>Compiling and executing MPI programs</h1>
+<ul>
+<li><p>Levante HPC system at DKRZ</p>
+<ul>
+<li>Compiler with Intel environment: mpiifort</li>
+</ul></li>
+<li>Slurm job scheduling system
+<ul>
+<li>Allocate resources on compute nodes + srun</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" title="1"><span class="ex">salloc</span> --nodes=1 --ntasks=4 -p <span class="op">&lt;</span>partition<span class="op">&gt;</span> -A <span class="op">&lt;</span>account<span class="op">&gt;</span> --t 00:10:00</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="ex">srun</span> ./a.out</a></code></pre></div>
+<ul>
+<li>Submit a batch job script (templates provided in exercises)</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" title="1"><span class="ex">sbatch</span> runscript.job</a></code></pre></div></li>
+</ul>
+</section>
+<section id="first-mpi-program" class="slide level1 section" data-background-size="contain" data-background-image="/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/theme/csc-2016/img/section.png">
+<h1>First MPI program</h1>
+</section>
+<section id="first-mpi-program-1" class="slide level1" data-background-size="contain">
+<h1>First MPI program</h1>
+<ul>
+<li>MPI program always starts/finishes with <strong><code>MPI_Init</code></strong> / <strong><code>MPI_Finalize</code></strong></li>
+</ul>
+<div class="column">
+<div class="sourceCode" id="cb6"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">PROGRAM</span> keys2lamborghini</a>
+<a class="sourceLine" id="cb6-2" title="2">    <span class="kw">USE</span> mpi</a>
+<a class="sourceLine" id="cb6-3" title="3">    <span class="dt">INTEGER</span> <span class="dt">::</span> err, rank, pes</a>
+<a class="sourceLine" id="cb6-4" title="4"></a>
+<a class="sourceLine" id="cb6-5" title="5">    <span class="kw">CALL</span> MPI_Init(err)</a>
+<a class="sourceLine" id="cb6-6" title="6">    <span class="kw">CALL</span> MPI_Comm_size(MPI_COMM_WORLD,pes,err)</a>
+<a class="sourceLine" id="cb6-7" title="7">    <span class="kw">CALL</span> MPI_Comm_rank(MPI_COMM_WORLD,rank,err)</a>
+<a class="sourceLine" id="cb6-8" title="8">    <span class="kw">CALL</span> MPI_Finalize(err)</a>
+<a class="sourceLine" id="cb6-9" title="9"></a>
+<a class="sourceLine" id="cb6-10" title="10"><span class="kw">END PROGRAM</span> keys2lamborghini</a></code></pre></div>
+</div>
+<div class="column">
+<br> <br> <br> Code executed by each process independently, unless including process-specific branching
+</div>
+</section>
+<section id="presentation-syntax" class="slide level1 split-definition" data-background-size="contain">
+<h1>Presentation syntax</h1>
+<ul>
+<li>MPI calls are presented for the Fortran interface
+<ul>
+<li>Very similar in C</li>
+</ul></li>
+</ul>
+<dl>
+<dt>MPI_Function(<code class="input">arg1</code>, <code class="output">arg2</code>)</dt>
+<dd><dl>
+<dt><code class="input">arg1</code></dt>
+<dd>Inputs given in red
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt><code class="output">arg2</code></dt>
+<dd>Outputs given in blue
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="mpi_comm_size" class="slide level1 split-definition" data-background-size="contain">
+<h1><strong><code>MPI_Comm_size</code></strong></h1>
+<ul>
+<li>Return the total number of processes</li>
+</ul>
+<dl>
+<dt>MPI_Comm_size(<code class="input">comm</code>, <code class="output">size</code>, <code class="output">err</code>)</dt>
+<dd><dl>
+<dt>integer <code class="input">comm</code></dt>
+<dd>Communicator
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="output">size</code></dt>
+<dd>Number of processes in the communicator
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="output">err</code></dt>
+<dd>Error status
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="mpi_comm_rank" class="slide level1 split-definition" data-background-size="contain">
+<h1><strong><code>MPI_Comm_rank</code></strong></h1>
+<ul>
+<li>Return the rank id (integer) of the calling process</li>
+</ul>
+<dl>
+<dt>MPI_Comm_rank(<code class="input">comm</code>, <code class="output">rank</code>, <code class="output">err</code>)</dt>
+<dd><dl>
+<dt>integer <code class="input">comm</code></dt>
+<dd>Communicator
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="output">rank</code></dt>
+<dd>Rank of the calling process
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="output">err</code></dt>
+<dd>Error status
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="mpi-communicator" class="slide level1" data-background-size="contain">
+<h1>MPI Communicator</h1>
+<ul>
+<li><p>MPI communicator</p>
+<ul>
+<li>An object connecting a group of processes</li>
+<li><strong>MPI_COMM_WORLD</strong> (includes all tasks in the invoked program)</li>
+<li>Carry information about the number of processes and process ranks</li>
+<li>Possible to define custom communicators for other purposes</li>
+</ul></li>
+</ul>
+</section>
+<section id="mpi-communication" class="slide level1 section" data-background-size="contain" data-background-image="/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/theme/csc-2016/img/section.png">
+<h1>MPI communication</h1>
+</section>
+<section id="types-of-mpi-communication" class="slide level1" data-background-size="contain">
+<h1>Types of MPI communication</h1>
+<ul>
+<li>Point-to-point communication</li>
+<li>Collective communication</li>
+<li>(One-sided communication)</li>
+</ul>
+<p><br></p>
+<ul>
+<li>Blocking communication
+<ul>
+<li>Functions do not return until communication procedure is complete</li>
+</ul></li>
+<li>Non-blocking communication
+<ul>
+<li>Return immediately, communication in the background</li>
+</ul></li>
+</ul>
+</section>
+<section id="point-to-point-communication-blocking" class="slide level1 split-definition" data-background-size="contain">
+<h1>Point-to-point communication (blocking)</h1>
+<ul>
+<li>Send and receive messages between two processes – Must have corresponding calls</li>
+</ul>
+<dl>
+<dt>MPI_Send(<code class="input">buf</code>,<code class="input">count</code>,<code class="input">datatype</code>,<code class="input">dest</code>,<code class="input">tag</code>,<code class="input">comm</code>,<code class="output">err</code>)</dt>
+<dd><dl>
+<dt>type(*) <code class="input">buf(..)</code></dt>
+<dd>Data send to another process
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="input">count</code></dt>
+<dd>Number of elements in the data
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="input">datatype</code></dt>
+<dd>Datatype of the elements in buf
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="input">dest</code></dt>
+<dd>Rank of the receiving process
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="input">tag</code></dt>
+<dd>An integer identifier for the msg
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="input">comm</code></dt>
+<dd>Communicator
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="output">err</code></dt>
+<dd>Error status
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="point-to-point-communication-blocking-1" class="slide level1 split-definition" data-background-size="contain">
+<h1>Point-to-point communication (blocking)</h1>
+<dl>
+<dt>MPI_Recv(<code class="input">buf</code>,<code class="input">count</code>,<code class="input">datatype</code>,<code class="input">source</code>,<code class="input">tag</code>,<code class="input">comm</code>,<code class="output">status</code>,<code class="output">err</code>)</dt>
+<dd><dl>
+<dt>type(*) <code class="output">buf(..)</code></dt>
+<dd>Data received from another process
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="input">count</code></dt>
+<dd>Number of elements in the data
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="input">datatype</code></dt>
+<dd>Datatype of the elements in buf
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="input">source</code></dt>
+<dd>Rank of the source process
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="input">tag</code></dt>
+<dd>An integer identifier for the msg
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="input">comm</code></dt>
+<dd>Communicator
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="output">status(MPI_STATUS_SIZE)</code></dt>
+<dd>Information about the received msg
+</dd>
+</dl>
+</dd>
+<dd><dl>
+<dt>integer <code class="output">err</code></dt>
+<dd>Error status
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="point-to-point-communication-blocking-2" class="slide level1" data-background-size="contain">
+<h1>Point-to-point communication (blocking)</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb7-1" title="1">    <span class="kw">CALL</span> MPI_Init(err)</a>
+<a class="sourceLine" id="cb7-2" title="2">    ...</a>
+<a class="sourceLine" id="cb7-3" title="3"></a>
+<a class="sourceLine" id="cb7-4" title="4">    <span class="kw">IF</span> (rank <span class="op">==</span> src) <span class="kw">THEN</span>   </a>
+<a class="sourceLine" id="cb7-5" title="5">        <span class="kw">CALL</span> MPI_SEND(mydata,msize,MPI_<span class="dt">INTEGER</span>,dest,  <span class="kw">&amp;</span></a>
+<a class="sourceLine" id="cb7-6" title="6">                      tag_snd,MPI_COMM_WORLD,err)</a>
+<a class="sourceLine" id="cb7-7" title="7"></a>
+<a class="sourceLine" id="cb7-8" title="8">    <span class="kw">ELSE IF</span> (rank <span class="op">==</span> dest) <span class="kw">THEN</span></a>
+<a class="sourceLine" id="cb7-9" title="9">        <span class="kw">CALL</span> MPI_RECV(otherdata,msize,MPI_<span class="dt">INTEGER</span>,src, <span class="kw">&amp;</span></a>
+<a class="sourceLine" id="cb7-10" title="10">                      tag_rcv,MPI_COMM_WORLD,st,err)</a>
+<a class="sourceLine" id="cb7-11" title="11">    ...</a>
+<a class="sourceLine" id="cb7-12" title="12"></a>
+<a class="sourceLine" id="cb7-13" title="13">    <span class="kw">CALL</span> MPI_FINALIZE(err)</a></code></pre></div>
+</section>
+<section id="blocking-mpi-communications-other-considerations" class="slide level1" data-background-size="contain">
+<h1>Blocking MPI communications: Other considerations</h1>
+<ul>
+<li><p><code>Buffers</code> should be continuous blocks in memory</p></li>
+<li>Deadlocks
+<ul>
+<li><p>The order of <code>MPI_Send</code> and <code>MPI_Recv</code> calls can be critical</p></li>
+<li><p>Processes expecting <code>MPI_Recv</code>, while there is a missmatch with <code>MPI_Send</code>s → execution gets stuck</p></li>
+<li><p>E.g. all processes try to send, while none get to receive</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="combined-sendrecv" class="slide level1" data-background-size="contain">
+<h1>Combined send/recv</h1>
+<p><strong>MPI_Sendrecv(<code class="input">sendbuf</code>,<code class="input">sendcount</code>,<code class="input">sendtype</code>,<code class="input">dest</code>,<code class="input">sendtag</code>,<code class="input">recvbuf</code>, <code class="input">recvcount</code>,<code class="input">recvtype</code>,<code class="input">source</code>,<code class="input">recvtag</code>,<code class="input">comm</code>,<code class="output">status</code>,<code class="output">err</code>)</strong></p>
+<ul>
+<li><p>Simultaneous send/recv → reduce risk for deadlocks</p></li>
+<li><p>Destination and source ranks can be the same or different</p></li>
+</ul>
+</section>
+<section id="summary" class="slide level1" data-background-size="contain">
+<h1>Summary</h1>
+<ul>
+<li><p>MPI provides a standard for parallel computing in distributed memory platforms</p></li>
+<li><p>Independent execution of the program code by each MPI process</p></li>
+<li><p>MPI processes held by a <em>communicator</em> object</p></li>
+<li><p>Explicit send/receive calls to exchange data between specific processes</p></li>
+</ul>
+</section>
+    </div>
+  </div>
+
+  <script src="/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/reveal.js/lib/js/head.min.js"></script>
+  <script src="/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: false,
+        // Transition style
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'none', // none/fade/slide/convex/concave/zoom
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+        math: {
+          mathjax: '/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/mathjax/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/reveal.js/plugin/zoom-js/zoom.js', async: true },
+          { src: '/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/reveal.js/plugin/math/math.js', async: true },
+          { src: '/home/jtonttil/SOFTWARE/slidefactory/lib/slidefactory/reveal.js/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>
