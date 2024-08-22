@@ -1,4 +1,3 @@
-
 ---
 title:  Parallel programming with MPI, part I
 event:  ESiWACE3-WarmWorld Summer School on HPC for Climate and Weather Applications

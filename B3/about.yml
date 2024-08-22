@@ -1,7 +1,6 @@
 # This file is used in the generation of the web page
-title: ESiWACE3 Summer School
+title: Block 3
 modules:
-  - B1
-  - B2
-  - B3
-
+  - L7
+  - L8
+#  - L9

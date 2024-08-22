@@ -1,6 +1,3 @@
 # This file is used in the generation of the web page
-title: Block 2
-modules:
-#  - ICON
-  - L5
-  - L6
+title: Lesson 7
+slidesdir: docs
