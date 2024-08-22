@@ -1,6 +1,6 @@
 # This file is used in the generation of the web page
 title: Block 2
 modules:
-#  - ICON
+  - ICON
   - L5
   - L6
