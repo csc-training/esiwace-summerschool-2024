@@ -92,7 +92,7 @@ nextGEMS R2B8/R2B9: 84% atmosphere, 14% ocean, 2.5% output
 
 # The ICON atmosphere time loop
 
-![](img/icon_time_step.jpg)
+![](img/ICON_time_step.jpg)
 
 # Examples
 
