@@ -7,7 +7,7 @@ lang:   en
 
 This course is based on the course "Introduction to GPU computing" by Marek Jacob (DWD)
 
-![](img/acc_icon_marek.png){.center width=75%}
+![](img/acc_ICON_marek.png){.center width=75%}
 
 # Goals of this session
 
