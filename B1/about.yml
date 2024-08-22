@@ -1,3 +1,5 @@
 # This file is used in the generation of the web page
-title: Lesson 2
-slidesdir: docs
+title: Block 1
+modules:
+  - L1
+  - L2

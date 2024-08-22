@@ -1,3 +1,5 @@
 # This file is used in the generation of the web page
-title: Lesson 2
-slidesdir: docs
+title: ESiWACE3 Summer School
+modules:
+  - B1
+  - B2
