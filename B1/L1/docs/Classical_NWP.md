@@ -210,7 +210,7 @@ What country was it run in?
 <div class="column" style="width:30%">
 - Radiative transfer
 - Surface and boundary layer processes
-- Convection
+- Convection (if $\Delta x$> 2-4 km
 - Clouds and large scale precipitation
 - Gravity wave drag
 - (Chemistry) 
@@ -219,7 +219,17 @@ What country was it run in?
 ![](img/parameterizations.png)
 </div>
 
-# Building the physical processes into a model
+# "Dynamics" and "Physics" - recap
+- "Dynamics" is the dynamical core of the model
+  - the equations of motion, continuity equation etc.
+  - large scale resolved processes
+  - advection, pressure gradients, Coriolis force
+  
+- "Physics" 
+  - same scale processes, the efffects of which on the dynamics is parameterized
+
+
+# Building the dynamics and physics into a model
 - Need to use physical principles as accurately as possible while still producing the forecasts in time
 - Many difficult to choices / compromises need to be made
 - Often relates to the mathematical methods used to integrate the equations forward in time
@@ -321,34 +331,16 @@ image from "Operational Weather Forecasting by Innes & Dorling" </div>
 </div>
 
 
-# Spectral versus grid point models
-- Spectral models represent the spatial variations of variables as a finite series of waves of differing wavelengths.
-- Grid point models represent the atmosphere in three-dimensional grid cubes with values of each variables stored in each grid (3D arrays)
-
-- Both methods have advantages and disadvantages
-- Numerical methods used to solve the equations differs between grid point and spectral models
-
-# "Dynamics" and "Physics"
-- "Dynamics" is the dynamical core of the model
-  - the equations of motion, continuity equation etc.
-  - large scale resolved processes
-  - advection, pressure gradients, Coriolis force
-  
-- Some processes occur on spatial scales much smaller than the model grid and cannot be explicitly resolved by the model
-- Procedures to describe these processes are referred to as "physical parameterizations" or more shortly "the physics"
-
-# Processes that are parameterized 
-- cloud microphysics
-- turbulence
-- surface fluxes
-- radiation (long and short wave)
-- convection (only in models with dx > ~2.5 km)
-
-  
-# Time steps and Numerical stability
+# Numerical Stability
 - We need to specify a timestep, $\Delta t$, when running an NWP model
 - Longer time steps -> fewer time steps -> the model runs faster
 - However, if the time step is too long, the model becomes numerically unstable
+
+# Numerical Stability
+- Consider what would happen if we reduced the grid size by a factor of 5 (e.g. from 50 to 10 km) without changing the time step
+- In the original coarse grid, an air parcel might move from one grid box to the next in the timestep (dt) e.g. move 50 km
+- In the “new” high 10 km grid, the air parcel will have still moved 50 km but this is now 5 grid boxes
+- Now the finite difference approach to compute the gradient is inappropriate – it is the gradient across the whole path that is appropriate
 
 # The Courant, Friedrichs and Lewy (CFL) condition
 - In the 1920s, Courant, Friedrichs and Lewy studied the numerical solutions of partial differential equations
@@ -362,16 +354,23 @@ where $C$ is the Courant Number, $u$ is the wind speed / velocity, $\Delta t$ is
 - The CFL criteria limits the length of the time step that can be used for the integration to remain numerically stable. 
 - CFL violations are a common cause for NWP models to crash
 
+# Spectral models - an alternative to finite differences
 
-# Model execution - simplified!
-- Initialisation: read the initial state files and construct the state vector
-- Time evolution: selection of time-stepping method depends on the choice of discretization
-- Output: computer program writes the state vector (+ other variables) to the disk storage
+- Spectral models represent the spatial variations of variables as a finite series of waves of differing wavelengths.
+- Grid point models represent the atmosphere in three-dimensional grid cubes with values of each variables stored in each grid (3D arrays)
 
-- <small> state vector = a vector containing model variables (e.g. u, v, T, q, p) </small>
+- Both methods have advantages and disadvantages
+- Numerical methods used to solve the equations differs between grid point and spectral models
+
+# Spectral Methods
+- Decompose meteorological fields into a series of spectral harmonics in 2 dimensions
+- Similar to how a Fourier series decomposes a 1-D data set (e.g. timeseries) into a series of sines and cosines
+- Choosing the wavelength of the smallest spectral harmonic is similar to choosing the grid length
+- Advantage – spatial derivatives can be computed analytically and very fast
+- Disadvantage – need to constantly transform between spectral and grid point space as the physics still needs to be computed on a grid
 
 # Spatial discretization - spectral models
-- Global model are also periodic model
+- Global models are also periodic model
 	- $u(x) = u(x+2π)$
 - Possible to express u(x) with a Fourier series:
 
@@ -380,21 +379,29 @@ $$u(x) = \frac{a_0}{2} + \sum_{m=1}^{\infty} ( a_m cos mx + b_m sin mx) $$
 - $a_0$ = mean value of u(x) along a latitude circle
 - $a_m$, $b_m$ = amplitudes of the wave components
 
-- Reality: a truncated series e.g. T255 includes components m=1,2,...,255.
+- Reality: a truncated (T)  series e.g. T255 includes components m=1,2,...,255.
 - Very short waves are not present
 
 # Spectral decomposition in 2D
  - Previously only considered longitude (x) dimension
  - Need to also consider the latitude (y) direction
- - W-E (periodic): sine and cosine
+ - W-E (periodic): sine and cosine (zonal wavenumbers, m)
 -  S-N (non-periodic): Legendre polynomials
+- m = zonal wavenumbers, n=total wavenumbers
+
+# Spectral models - practicalities
+- Each time-step is split between computations in grid point space and computations in spectral space. 
+- Semi-Lagrangian advection, physical parameterisations and products of terms are computed most efﬁciently in grid point space
+- horizontal gradients, semi-implicit calculations and horizontal diffusion are computed more efﬁciently in spectral space. 
+- The transform between these two spaces is performed on the sphere with spherical harmonics, that is computing these results along longitudes
+in a Fast Fourier transform (FFT) and a Legendre transform (LT) along latitudes. 
 
 # Spectral decomposition in 2D
 ![](img/spectral.png)
 
 
 # Spatial resolution
- - Grid-point discretization: grid spacing <=> resolution of the model
+- Grid-point discretization: grid spacing <=> resolution of the model
 - Fourier series: number of waves <=> representation of wave combinations of different scales
 
 # Time integration of Fourier series
@@ -405,6 +412,18 @@ $$u(x) = \frac{a_0}{2} + \sum_{m=1}^{\infty} ( a_m cos mx + b_m sin mx) $$
 
 - Not very easy for humans to understand ->  transform output to grid-point space
 
+# Spectral transform method
+
+Short practical 
+
+<https://anmrde.github.io/spectral/>
+
+# Model execution - simplified!
+- Initialisation: create and read the initial state files and construct the state vector
+- Time evolution: selection of time-stepping method depends on the choice of discretization
+- Output: computer program writes the state vector (+ other variables) to the disk storage
+
+- <small> state vector = a vector containing model variables (e.g. u, v, T, q, p) </small>
 
 # Add physical processes
 - Previously: all (grid-scale) dynamics in wave space
@@ -419,20 +438,98 @@ $$u(x) = \frac{a_0}{2} + \sum_{m=1}^{\infty} ( a_m cos mx + b_m sin mx) $$
 - Transform physical tendencies back to wave space
 - Combine dynamic and physical tendencies in wave space
 - Update model state using total tendencies and a time-stepping scheme
+
+# Grid box size / truncation and "resolution"
+- Often these terms are used inter-changeably but they do not mean the same thing!
+- Grid box size = how large in km or degrees the grid cells are
+- Resolution = what scale of atmospheric features you can resolve correctly with the given grid box size
+
+# Grid box size / truncation and "resolution"
+
+ 
+<div class="column" style="width:60%">
+- a wave type feature in the x direction (a)
+- three grid points get the variation but it is a saw-tooth (b)
+- The wave is shifted ¼ of a wavelength but now the 3 grid points miss the wave completely (c)
+- Now have 5 grid points and the wave will be resolved regardless of wave (d)
+
+</div>
+<div class="column" style="width:35%">
+![](img/resolution.png)
+<div style=font-size:0.4em>  
+Typically models can only resolve features on spatial scales that are 5 – 7 times the size of the grid spacing </div>
+</div>
+
+# Break
+
+# Ensemble Forecasting (1)
+<div class="column" style="width:60%">
+- The atmospheric is inherently chaotic
+- Small errors will grow and become larger as forecast length increases
+- All forecasts / NWP models have two types of errors:
+- initial state errors as we do not know the initial state of the atmosphere perfectly
+- model formulation errors - we cannot resolve all processes perfectly
+</div>
+<div class="column" style="width:35%">
+![](img/ensemble1.png)
+<div style=font-size:0.4em>  
+https://www.e-education.psu.edu/meteo810/content/l4_p6.html </div>
+</div>
+
+# Ensemble Forecasting (2)
+- Ensemble forecasting aims to obtain estimates of predictability and forecast skill
+- Ensemble forecasts involve producing a set of different forecasts given an initial weather situation.
+- Two approaches to create the different forecasts:
+- Perturb the initial conditions to account for initial condition uncertainty
+- Apply small stochastic perturbations to the model physics to account for uncertainties in the model formulation.
+
+# Ensemble Forecasting (3)
+- Used operationally by most national weather forecast agencies for weather, sub seasonal and seasonal forecasting
+- Also used in the climate modelling community
+- Less common in climate modelling due to the large computational expense but can be very useful
+	- Multi-model ensembles are more commonly used
 	
-# Spectral transform method
+	
+# Example Ensemble Weather Forecast
+<div class="column" style="width:40%">
+![](img/example_meteogram.png){.center}
+</div>
 
-Short practical 
+<div class="column" style="width:50%">
+<div style=font-size:0.8em>
+- "Meteogram" from ECMWF for Helsinki
+- Forecast from last Friday, covers the time period until Monday 2nd
+- boxes show the spread in the ensemble (10 - 90th percentiles)
+- lines show the max and min values
+- from www.ecmwf.int </div>
+</div>
 
-<https://anmrde.github.io/spectral/>
+# Example Ensemble Weather Forecast
+<div class="column" style="width:40%">
+![](img/plumes.png){.center}
+</div>
+
+<div class="column" style="width:50%">
+- "Plumes diagram" for same location / dates as last slide
+- Spread (uncertainity) increases with forecast length
+- from www.ecmwf.int
+</div>
+
+# Example Ensemble Weather Forecast
+![](img/ensemble_probs_T25C.png){.center width=65%}
+Can compute probabilities of certain weather events, e.g. temperature exceeding 25C  (from www.ecmwf.int)
 
 
 # State of NWP today
 <div class="column">
+<div style=font-size:0.8em>
 - Many different global and limited area NWP models have been developed and are run operationally
 - Forecast accuracy has increased at a rate of about 1 day per decade
- - a 5 day weather forecast today is as accurate as a 4 day forecast 10 years ago
+- A 5-day weather forecast today is as accurate as a 4-day forecast was 10 years ago
+- Weather Forecasts are now very accurate and save many lives and huge amounts of money each year
+- (communicating them to the public and stakeholders is still a huge challange)
  </div>
+  </div>
 <div class="column">
 ![](img/NWP_forecast_skill_over_years.png)
 
@@ -441,12 +538,19 @@ Short practical
  </div>
  
 # The Integrated Forecast System (IFS)
+<div class="column">
+<div style=font-size:0.8em>
  - Developed by the European Centre for Medium Range Weather Forecasting (ECMWF)
  - "System" includes the forecast (NWP) model **and**  observation processing **and** data assimilation scheme
  - Now coupled to a dynamical ocean model, NEMO.
- - The IFS is the atmospheric component of the Earth System Model, EC-Earth.
+ - Written in Fortran
  - OpenIFS is a version of the IFS that is available to universities and research institutes. 
 	 - now includes basic aerosol and chemistry
+ </div>
+  </div>
+<div class="column">
+![](img/IFS_info.png)
+ </div>	 
  
  
 # ICON (Icosahedral Nonhydrostatic) Model
@@ -460,37 +564,34 @@ Short practical
 ![](img/r2b02_europe.png)
 </div>
 
-# Ensemble Forecasting (1)
-<div class="column">
-- The atmospheric is inherently chaotic
-- Small errors will grow and become larger as forecast length increases
-- All forecasts / NWP models have two types of errors:
- - initial state errors as we do not know the initial state of the atmosphere perfectly
- - model formulation errors - we cannot resolve all processes perfectly
- </div>
-<div class="column">
-![](img/idealized_true_ensemble.png)
+# RMSE for 6 different global NWP models
+
+# Reanalysis data
+<div class="column" style="width:60%">
+- Combination of model and observations
+  - Data assimilation
+- Can be considered our best guess of the state of the atmosphere but not complete “truth”
+- Gridded datasets – 4 dimensional (x,y,z,t)
+- Contains hundreds of variables
+	- temperature, winds, cloud properties, rain, snow, soil temperature etc
+</div>
+<div class="column" style="width:35%">
+![](img/reanalysis.jpg)
+<div style=font-size:0.4em>https://www.ecmwf.int/en/about/media-centre/science-blog/2017/era5-
+new-reanalysis-weather-and-climate-data   </div>
 </div>
 
-# Ensemble Forecasting (2)
-- Ensemble forecasting aims to obtain estimates of predictability and forecast skill
-- Ensemble forecasts involve producing a set of different forecasts given an initial weather situation. 
-- Two approaches to create the different forecasts:
- - perturb the initial conditions to account for initial condition uncertainty
- - apply small stochastic perturbations to the model physics to account for uncertainties in the model formulation. 
-
-# Ensemble Forecasting (3)
-- Use operationally by most national weather forecast agencies for weather, sub seasonal and seasonal forecasting
-- Also used in the climate modelling community
- - less common due to the large computational expense but can be very useful
- - multi-model ensembles are more commonly used
- 
-# Example Ensemble Weather Forecast
-![](img/example_ensemble_forecast.png)
+# ERA5 Reanalysis
+- One of the most commonly used reanalysis
+- Developed by the European Centre for Medium Range Forecasts (ECWMF)
+- Available at 1 hourly temporal resolution from the 1st January 1940 – present
+- 0.25 degree horizontal grid spacing
+- 137 model levels, data also on 37 pressure levels
+- Huge data set ~5 petabytes
+- Openly available: https://cds.climate.copernicus.eu
+- Ideal training dataset for ML models
 
 
-
- 
 # Part 3: What are Earth System Models (ESMs)
 
 # Earth System Models (1)
