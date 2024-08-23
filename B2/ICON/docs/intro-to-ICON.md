@@ -343,11 +343,13 @@ add_link_file ${datadir}/bc_aeropt_kinne_sw_b14_coa.nc                  ./
 
 # Experiments
 
-- Groups 1 and 2:
-- Groups 3 and 4:
-- Groups 5 and 6:
-- Groups 7 and 8:
-- Groups 9 and 10:
+- Groups 1 and 2: Divide the greenhouse gas (GHG) concentrations by four
+- Groups 3 and 4: Multiply the GHG concentrations by four
+- Groups 5 and 6: Add 4 K to the ocean temperature reported to the atmosphere.
+- Groups 7 and 8: Combine the effects of group 3/4 and 5/6
+- Groups 9 and 10: Run the model as-is
+
+Groups with even numbers, add 0.01 PPM (parts per million) to the CO2 concentration.
 
 # Examples
 
