@@ -13,6 +13,35 @@ lang:   en
 - Its development started more than two decades ago; initially by the German Weather Service (DWD) and the Max Planck Institute for Meterology (MPI-M), later joined by the Karlsruhe Institute for Technology (KIT) and the German Climate Computing Center (DKRZ) and latest the Swiss Center for Climate Systems Modeling (C2SM)
 - Since January 2024 it is available under an open source license via https://www.icon-model.org/
 
+# What are the components of ICON?
+
+![](img/csm_ICON_model_9c699406b8.jpg){.center width=35%}
+Credit: Max Planck Institute for Meteorology (https://mpimet.mpg.de/en/research/modeling)
+
+# What is ICON used for?
+
+- ICON is used for applications ranging from numerical weather prediction to CMIP-type climate simulations to km-scale climate simulations
+
+# ICON NWP
+
+- Used for operational numerical weather prediction at DWD since 2015
+- Other national weather services are using it as well; the latest being Meteo Swiss since June 2024
+
+- DWD setup: 13 km global, 7 km over Europe, 2 km over Germany and surroundings (nested)
+
+
+# ICON ESM
+
+- Coupled model setup consisting of atmosphere (horizontal resolution 160km, 47 vertical level), ocean (horizontal resolution of 40km, 64 vertical level), land, and optionally ocean biogeochemistry
+- Without ocean biogeochemistry it achieved a throughput of ~120 simulated years per day on 120 nodes on the DKRZ system Mistral (predecessor of Levante)
+- see also [Jungclaus et al., 2022](https://doi.org/10.1029/2021MS002813)
+
+# ICON at km-scales
+
+- ICON is also one of few models worldwide that can be used for coupled simulations at km-scale allowing to directly simulate smaller scale features like storms or ocean eddies (see also [Hohenegger et al., 2023](https://doi.org/10.5194/gmd-16-779-2023))
+- In the NextGEMS project a 30-year simulation was performed with the coupled model with atmosphere (10km horizontal resolution, 90 vertical level), ocean (5km resolution, 72 vertical level) and land components
+- It achieved a throughput of ~1 simulated year per day on 472 nodes of Levante at DKRZ
+
 # What are we going to do today?
 
 - We want you to run your own ICON experiments!
@@ -27,7 +56,7 @@ lang:   en
 
 - Please pair up in teams of two (or one team of three if needed)
 - Log in to levante and go to your work directory
-- Get the model model code and some helper scripts from Flo's repo:
+- Get the model code and some helper scripts from Flo's repo:
 
 ```
 git clone https://gitlab.dkrz.de/flo/icon_with_python.git 
@@ -42,7 +71,7 @@ git clone https://gitlab.dkrz.de/flo/icon_with_python.git
 
 # What does the script actually do?
 
-- Here we want to use a novel method of writing output named hiopy, for which the model is coupled to a python program that writes the data on a so-called healpix grid and which makes the later analyssis of the data much easier (more on that in Flo's upcoming lectures)
+- Here we want to use a novel method of writing output named hiopy, for which the model is coupled to a python program that writes the data on a so-called healpix grid and which makes the later analysis of the data much easier (more on that in Flo's upcoming lectures)
 - For that we need to set up a virtual environment in which we can later install the necessary python package
 - Then we can actually build the ICON model
 
@@ -88,36 +117,6 @@ fi
 ./make_runscripts esm_bb_ruby0_hiopy
 
 ```
-
-# What are the components of ICON?
-
-![](img/csm_ICON_model_9c699406b8.jpg){.center width=35%}
-Credit: Max Planck Institute for Meteorology (https://mpimet.mpg.de/en/research/modeling)
-
-# What is ICON used for?
-
-- ICON is used for applications ranging from numerical weather prediction to CMIP-type climate simulations to km-scale climate simulations
-
-# ICON NWP
-
-- Used for operational numerical weather prediction at DWD since 2015
-- Other national weather services are using it as well; the latest being Meteo Swiss since June 2024
-
-- DWD setup: 13 km global, 7 km over Europe, 2 km over Germany and surroundings (nested)
-
-
-# ICON ESM
-
-- Coupled model setup consisting of atmosphere (horizontal resolution 160km, 47 vertical level), ocean (horizontal resolution of 40km, 64 vertical level), land, and optionally ocean biogeochemistry
-- Without ocean biogeochemistry it achieved a throughput of ~120 simulated years per day on 120 nodes on the DKRZ system Mistral (predecessor of Levante)
-- see also [Jungclaus et al., 2022](https://doi.org/10.1029/2021MS002813)
-
-# ICON at km-scales
-
-- ICON is also one of few models worldwide that can be used for coupled simulations at km-scale allowing to directly simulate smaller scale features like storms or ocean eddies (see also [Hohenegger et al., 2023](https://doi.org/10.5194/gmd-16-779-2023))
-- In the NextGEMS project a 30-year simulation was performed with the coupled model with atmosphere (10km horizontal resolution, 90 vertical level), ocean (5km resolution, 72 vertical level) and land components
-- It achieved a throughput of ~1 simulated year per day on 472 nodes of Levante at DKRZ
-
 # How is ICON programmed?
 
 - ICON is written mosten in Fortran and consists of more than 1 million lines of code
