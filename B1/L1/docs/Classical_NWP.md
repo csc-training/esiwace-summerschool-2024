@@ -528,7 +528,7 @@ Short practical
   - range from 45 minutes to 1 year depending on the processes
 </div>
 <div class="column">
-![](img/gmd_ecearth_components.png" width="600")
+![](img/gmd_ecearth_components.png)
 </div>
 
 # EC-Earth 
