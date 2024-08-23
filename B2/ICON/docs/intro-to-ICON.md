@@ -24,7 +24,7 @@ Credit: Max Planck Institute for Meteorology (https://mpimet.mpg.de/en/research/
 
 # ICON NWP
 
-- Used for operational numerical weather prediction at DWD since 2015
+- Used for operational **numerical weather prediction** at DWD since 2015
 - Other national weather services are using it as well; the latest being Meteo Swiss since June 2024
 
 - DWD setup: 13 km global, 7 km over Europe, 2 km over Germany and surroundings (nested)
@@ -32,20 +32,22 @@ Credit: Max Planck Institute for Meteorology (https://mpimet.mpg.de/en/research/
 
 # ICON ESM
 
-- Coupled model setup consisting of atmosphere (horizontal resolution 160km, 47 vertical level), ocean (horizontal resolution of 40km, 64 vertical level), land, and optionally ocean biogeochemistry
-- Without ocean biogeochemistry it achieved a throughput of ~120 simulated years per day on 120 nodes on the DKRZ system Mistral (predecessor of Levante)
+- Coupled model setup consisting of atmosphere, ocean, land, and optionally ocean biogeochemistry.
+- Made for **multi-century climate projections** and experiments.
+- With a resolution of 160 km in the atmosphere, and 40 km in the ocean, and without ocean biogeochemistry it achieved a throughput of ~120 simulated years per day on 120 nodes on the DKRZ system Mistral (predecessor of Levante).
 - see also [Jungclaus et al., 2022](https://doi.org/10.1029/2021MS002813)
 
 # ICON at km-scales
 
-- ICON is also one of few models worldwide that can be used for coupled simulations at km-scale allowing to directly simulate smaller scale features like storms or ocean eddies (see also [Hohenegger et al., 2023](https://doi.org/10.5194/gmd-16-779-2023))
-- In the NextGEMS project a 30-year simulation was performed with the coupled model with atmosphere (10km horizontal resolution, 90 vertical level), ocean (5km resolution, 72 vertical level) and land components
-- It achieved a throughput of ~1 simulated year per day on 472 nodes of Levante at DKRZ
+- ICON is also one of few models worldwide that can be used for coupled simulations at **km-scale allowing to directly simulate storms or ocean eddies** (see also [Hohenegger et al., 2023](https://doi.org/10.5194/gmd-16-779-2023))
+- In the NextGEMS project a 30-year simulation was performed with the coupled model with atmosphere (10 km), ocean (5 km) and land components.
+- It achieved a throughput of ~1 simulated year per day on 472 nodes of Levante at DKRZ.
 
 # What are we going to do today?
 
 - We want you to run your own ICON experiments!
-- To do that you need to 
+- 2-year coarse-resolution climate experiments.
+- To do that you need to:
     - Get the ICON model code
     - Set up your environment and build the model
     - Create a run script
@@ -351,5 +353,9 @@ add_link_file ${datadir}/bc_aeropt_kinne_sw_b14_coa.nc                  ./
 Groups with even numbers, add 0.01 PPM (parts per million) to the CO2 concentration.
 
 # Examples
+
+- [Clouds at 2.5 km resolution](https://www.youtube.com/watch?v=EzqjAFJYmgY)
+- [Currents and sea ice in a high-res run](https://www.youtube.com/watch?v=-l_N8nT9Bnc)
+- [Phytoplankton in a high-res run](https://www.youtube.com/watch?v=vZ2P6N57oa0)
 
 # First look at your model data
