@@ -34,8 +34,6 @@ author: Victoria Sinclair, University of Helsinki
 ![](img/Abbe_Bjerkness_Richardson.jpg){.center width=800}
 <div style="text-align:center"><span style="font-size:0.4em"> Left: Cleveland Abbe (1838–1916). <br> Centre: Vilhelm Bjerknes (1862–1951). <br> Right: Lewis Fry Richardson (1881–1953) <br> <br> (from "The origins of computer weather prediction and climate modelling" by Peter Lynch) <br> <https://doi.org/10.1016/j.jcp.2007.02.034/></div>
 
-<!--<div style="font-size:0.4em; text-align:centre"> Left: Cleveland Abbe (1838–1916). <br> Centre: Vilhelm Bjerknes (1862–1951). <br> Right: Lewis Fry Richardson (1881–1953) <br> <br> (from "The origins of computer weather prediction and climate modelling" by Peter Lynch) <br> <https://doi.org/10.1016/j.jcp.2007.02.034/></div>
-</div>-->
 
 # History of Numerical Weather Prediction (2)
 - Bjerkness (1904) proposed a two-step plan for rational forecasting
@@ -70,7 +68,7 @@ author: Victoria Sinclair, University of Helsinki
 -  <small>Richardson “Perhaps some day in the dim future it will be possible to advance the computations faster than the weather advances …. But that is a dream.” </small>
 </div>
 <div class="column" style="width:30%">
-<div style="text-align:right"><img src="img/Forecast-Factory.jpeg" width="600">
+![](img/Forecast-Factory.jpeg){.center width=600}
 
 <div style=font-size:0.4em>  
 Richardson's forecast factory - an Illustration by F. Schuiten
@@ -83,15 +81,6 @@ Richardson's forecast factory - an Illustration by F. Schuiten
 	- How to solve the complex set of equations
 	- Progress required a computer
 
-<!-- # Simplified Equation sets
-- Atmospheric motion includes a range of processes covering a wide range of spatial and temporal scales
-- The primitive equations also include solutions for high frequency gravity waves - to resolve these requires very small time steps 
-- Rossby in the 1930's showed that the large-scale motions in the atmosphere could be represented quite well with the barotropic vorticity equation - geostrophically balanced dynamics / a set of filtered equations 
-
-# Solving equations numerically
-- Need to discretize the equations
-- 
--->
 
 # First electronic, programmable computer
 
@@ -109,7 +98,7 @@ Does anyone know its name?
 </div>
 
 <div class="column" style="width:30%">>
-<div style="text-align:centre"><img src="img/ENIAC.jpg">
+![](img/ENIAC.jpg){.center}
 
 <div style=font-size:0.4em>  
 ENIAC <br> https://en.wikipedia.org/wiki/ENIAC
@@ -141,7 +130,7 @@ What country was it run in?
 
 </div>
 <div class="column" style="width:30%">>
-<div style="text-align:center"><img src="img/Bolin_paper.png">
+![](img/Bolin_paper.png){.center}
  <div style=font-size:0.4em> Bolin, B. Numerical forecasting with the barotropic model. Tellus 7, 27–49 (1955), <https://doi.org/10.1111/j.2153-3490.1955.tb01139.x> </div>
  
 # Part 2:  Classical numerical modelling concepts
@@ -171,13 +160,13 @@ What country was it run in?
 - Conservation of water vapour
 
 # The equations (in a simple-ish form)
-<img src="img/equations.png">
+![](img/equations.png)
 
 # The equations
 - Complex in reality - use longitude and latitude as coordinates
 - Here the vertical cooridinate is $\eta$ (more about this later)
 - These are from the IFS documentation
-<img src="img/momentum_equations.png"> 
+![](img/momentum_equations.png)
 
 # Approximations to the full Equations - Why?
 - To save computing time or simplify the solutions of the equations
@@ -227,7 +216,7 @@ What country was it run in?
 - (Chemistry) 
 </div>
 <div class="column" style="width:65%">
-<div style="text-align:center"><img src="img/parameterizations.png"> 
+![](img/parameterizations.png)
 </div>
 
 # Building the physical processes into a model
@@ -251,10 +240,9 @@ What country was it run in?
 - centered difference 
 </div>
 <div class="column" style="width:65%">
-<div style="text-align:center"><img src="img/finite_diff_1.png"> 
-</div>
+![](img/finite_diff_1.png)
 <div style=font-size:0.4em>  
-image from "Operational Weather Forecasting by Innes & Dorling"
+image from "Operational Weather Forecasting by Innes & Dorling"</div>
 </div>
 
 # Centered difference
@@ -264,10 +252,9 @@ image from "Operational Weather Forecasting by Innes & Dorling"
 - errors are introduced by the discretization.
 </div>
 <div class="column" style="width:65%">
-<div style="text-align:center"><img src="img/finite_diff_2.png"> 
-</div>
+![](img/finite_diff_2.png) 
 <div style=font-size:0.4em>  
-image from "Operational Weather Forecasting by Innes & Dorling"
+image from "Operational Weather Forecasting by Innes & Dorling" </div>
 </div>
 
 # Staggered grids - one solution
@@ -277,10 +264,9 @@ image from "Operational Weather Forecasting by Innes & Dorling"
 - Can be a pain when post-processing output!
 </div>
 <div class="column" style="width:45%">
-<div style="text-align:center"><img src="img/staggered_grid.png"> 
-</div>
+![](img/staggered_grid.png)
 <div style=font-size:0.4em>  
-image from "Operational Weather Forecasting by Innes & Dorling"
+image from "Operational Weather Forecasting by Innes & Dorling" </div>
 </div>
 
 
@@ -293,7 +279,7 @@ image from "Operational Weather Forecasting by Innes & Dorling"
 </div>
 
 <div class="column" style="width:30%">
-<img src="img/AtmosphericModelSchematic.png">
+![](img/AtmosphericModelSchematic.png)
 </div>
 
 # Coordinate systems - horizontal
@@ -306,8 +292,8 @@ image from "Operational Weather Forecasting by Innes & Dorling"
 	- IFS uses an octahedral reduced Gaussian grid 
 </div>
 
-<div class="column">
-<img src="img/icon_grid.png">
+<div class="column" style="width:30%">
+![](img/icon_grid.png)
 </div>
 
 
@@ -321,7 +307,7 @@ image from "Operational Weather Forecasting by Innes & Dorling"
 </div>
 
 <div class="column">
-<img src="img/vert_coords.jpg">
+![](img/vert_coords.jpg)
 </div>
 
 # Coordinate systems - vertical (2)
@@ -331,7 +317,7 @@ image from "Operational Weather Forecasting by Innes & Dorling"
 </div>
 
 <div class="column">
-<img src="img/vert_coords.jpg">
+![](img/vert_coords.jpg)
 </div>
 
 
@@ -404,7 +390,7 @@ $$u(x) = \frac{a_0}{2} + \sum_{m=1}^{\infty} ( a_m cos mx + b_m sin mx) $$
 -  S-N (non-periodic): Legendre polynomials
 
 # Spectral decomposition in 2D
-<img src="img/spectral.png">
+![](img/spectral.png)
 
 
 # Spatial resolution
@@ -415,7 +401,7 @@ $$u(x) = \frac{a_0}{2} + \sum_{m=1}^{\infty} ( a_m cos mx + b_m sin mx) $$
 - All computations in wave space
 - compute tendencies of amplitudes
 
-<img src="img/eqn_spectral.png">
+![](img/eqn_spectral.png)
 
 - Not very easy for humans to understand ->  transform output to grid-point space
 
@@ -448,11 +434,12 @@ Short practical
  - a 5 day weather forecast today is as accurate as a 4 day forecast 10 years ago
  </div>
 <div class="column">
-<div style="text-align:center"><img src="img/NWP_forecast_skill_over_years.png">
+![](img/NWP_forecast_skill_over_years.png)
 
 <div style=font-size:0.4em> Bauer, P., Thorpe, A. & Brunet, G. The quiet revolution of numerical weather prediction. Nature 525, 47–55 (2015). <https://doi.org/10.1038/nature14956> </small>
  </div>
-
+ </div>
+ 
 # The Integrated Forecast System (IFS)
  - Developed by the European Centre for Medium Range Weather Forecasting (ECMWF)
  - "System" includes the forecast (NWP) model **and**  observation processing **and** data assimilation scheme
@@ -470,7 +457,7 @@ Short practical
 </div>
 
 <div class="column">
-<img src="img/r2b02_europe.png">
+![](img/r2b02_europe.png)
 </div>
 
 # Ensemble Forecasting (1)
@@ -482,8 +469,9 @@ Short practical
  - model formulation errors - we cannot resolve all processes perfectly
  </div>
 <div class="column">
-<img src="img/idealized_true_ensemble.png">
+![](img/idealized_true_ensemble.png)
 </div>
+
 # Ensemble Forecasting (2)
 - Ensemble forecasting aims to obtain estimates of predictability and forecast skill
 - Ensemble forecasts involve producing a set of different forecasts given an initial weather situation. 
@@ -498,7 +486,7 @@ Short practical
  - multi-model ensembles are more commonly used
  
 # Example Ensemble Weather Forecast
-<img src="img/example_ensemble_forecast.png">
+![](img/example_ensemble_forecast.png)
 
 
 
@@ -529,7 +517,7 @@ Short practical
 </div>
 
 <div class="column">
-<img src="img/ECEarth.png">
+![](img/ECEarth.png)
 </div>
 
 
@@ -540,7 +528,7 @@ Short practical
   - range from 45 minutes to 1 year depending on the processes
 </div>
 <div class="column">
-<img src="img/gmd_ecearth_components.png" width="600">
+![](img/gmd_ecearth_components.png" width="600")
 </div>
 
 # EC-Earth 
@@ -548,7 +536,7 @@ Short practical
 Variables that are passed from the atmosphere model (IFS) to the Chemistry Transport model (TM5) in EC-Earth3 and vice-versa.
 </div>
 <div class="column">
-<img src="img/ec_earth_table.png">
+![](img/ec_earth_table.png)
 </div>
 
 # Part 4: Remaining challenges
