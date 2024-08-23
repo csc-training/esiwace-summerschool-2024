@@ -30,11 +30,12 @@ author: Victoria Sinclair, University of Helsinki
 - He identified that the thermodynamic and hydrodynamic equations could be used.
 - Did not know how to solve the equations
 </div>
-<div class="column">
-<div style="text-align:center"><img src="img/1-s2.0-S0021999107000952-gr1.jpg" width="600">
+<div class=column>
+![](img/Abbe_Bjerkness_Richardson.jpg){.center width=800}
+<div style="text-align:center"><span style="font-size:0.4em"> Left: Cleveland Abbe (1838–1916). <br> Centre: Vilhelm Bjerknes (1862–1951). <br> Right: Lewis Fry Richardson (1881–1953) <br> <br> (from "The origins of computer weather prediction and climate modelling" by Peter Lynch) <br> <https://doi.org/10.1016/j.jcp.2007.02.034/></div>
 
-<div style=font-size:0.4em> Left: Cleveland Abbe (1838–1916). <br> Centre: Vilhelm Bjerknes (1862–1951). <br> Right: Lewis Fry Richardson (1881–1953) <br> <br> (from "The origins of computer weather prediction and climate modelling" by Peter Lynch) <br> <https://doi.org/10.1016/j.jcp.2007.02.034/> </div>
-</div>
+<!--<div style="font-size:0.4em; text-align:centre"> Left: Cleveland Abbe (1838–1916). <br> Centre: Vilhelm Bjerknes (1862–1951). <br> Right: Lewis Fry Richardson (1881–1953) <br> <br> (from "The origins of computer weather prediction and climate modelling" by Peter Lynch) <br> <https://doi.org/10.1016/j.jcp.2007.02.034/></div>
+</div>-->
 
 # History of Numerical Weather Prediction (2)
 - Bjerkness (1904) proposed a two-step plan for rational forecasting
