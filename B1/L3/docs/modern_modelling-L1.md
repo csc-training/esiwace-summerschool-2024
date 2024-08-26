@@ -1,6 +1,6 @@
 ---
 title:  Modern modelling L1
-event:  ESiWACE3-WarmWorld Summer School on HPC for Climate and Weather Applications
+event:  ESiWACE3-WarmWorld Summer School 2024
 author: Jarmo Mäkelä
 lang:   en
 ---
