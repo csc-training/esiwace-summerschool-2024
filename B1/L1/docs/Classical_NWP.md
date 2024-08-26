@@ -5,10 +5,11 @@ author: Victoria Sinclair, University of Helsinki
 ---
 
 # Topics 
-## History of Numerical Weather Prediction (NWP)
-## Classical numerical modelling concepts
-## What are Earth System Models (ESMs)
-## Remaining Challenges
+## Part 1: History of Numerical Weather Prediction (NWP)
+## Part 2: Classical numerical modelling concepts
+## Part 3: State of NWP today & Reanalysis
+## Part 4: What are Earth System Models (ESMs)
+## Part 5: Remaining Challenges
 
 	
 	
@@ -240,7 +241,7 @@ What country was it run in?
 - Need to replace continuous derivatives in time and space with finite differences
 - Need to specify a finite timestep dt compute how the variables will change over that time interval
 - Replace $\frac{\partial u}{\partial t}0$  with $\frac{\Delta w}{\Delta t}$
-- Need to make sure $\delta t$ is not “too long” – come back to this
+- Need to make sure $\Delta t$ is not “too long” – come back to this
 - Also replace $\frac{\partial p}{\partial x}0$  with $\frac{\Delta p}{\Delta x}$ etc.. 
 
 # Finite Differences
@@ -297,6 +298,7 @@ image from "Operational Weather Forecasting by Innes & Dorling" </div>
 - Specified in terms of longitude and latitude (rather than x and y)
 - Gaussian grids
 - Reduced Gaussian grids
+	- the number of gridpoints around each latitude circle decreases towards the poles
 - Recently new grid types: Icosahedral and Octahedral grids
 	- ICON (Icosahedral Nonhydrostatic) Model
 	- IFS uses an octahedral reduced Gaussian grid 
@@ -339,7 +341,7 @@ image from "Operational Weather Forecasting by Innes & Dorling" </div>
 # Numerical Stability
 - Consider what would happen if we reduced the grid size by a factor of 5 (e.g. from 50 to 10 km) without changing the time step
 - In the original coarse grid, an air parcel might move from one grid box to the next in the timestep (dt) e.g. move 50 km
-- In the “new” high 10 km grid, the air parcel will have still moved 50 km but this is now 5 grid boxes
+- In the “new” high rsolution 10 km grid, the air parcel will have still moved 50 km but this is now 5 grid boxes
 - Now the finite difference approach to compute the gradient is inappropriate – it is the gradient across the whole path that is appropriate
 
 # The Courant, Friedrichs and Lewy (CFL) condition
@@ -354,97 +356,12 @@ where $C$ is the Courant Number, $u$ is the wind speed / velocity, $\Delta t$ is
 - The CFL criteria limits the length of the time step that can be used for the integration to remain numerically stable. 
 - CFL violations are a common cause for NWP models to crash
 
-# Spectral models - an alternative to finite differences
-
-- Spectral models represent the spatial variations of variables as a finite series of waves of differing wavelengths.
-- Grid point models represent the atmosphere in three-dimensional grid cubes with values of each variables stored in each grid (3D arrays)
-
-- Both methods have advantages and disadvantages
-- Numerical methods used to solve the equations differs between grid point and spectral models
-
-# Spectral Methods
-- Decompose meteorological fields into a series of spectral harmonics in 2 dimensions
-- Similar to how a Fourier series decomposes a 1-D data set (e.g. timeseries) into a series of sines and cosines
-- Choosing the wavelength of the smallest spectral harmonic is similar to choosing the grid length
-- Advantage – spatial derivatives can be computed analytically and very fast
-- Disadvantage – need to constantly transform between spectral and grid point space as the physics still needs to be computed on a grid
-
-# Spatial discretization - spectral models
-- Global models are also periodic model
-	- $u(x) = u(x+2π)$
-- Possible to express u(x) with a Fourier series:
-
-$$u(x) = \frac{a_0}{2} + \sum_{m=1}^{\infty} ( a_m cos mx + b_m sin mx) $$ 
-
-- $a_0$ = mean value of u(x) along a latitude circle
-- $a_m$, $b_m$ = amplitudes of the wave components
-
-- Reality: a truncated (T)  series e.g. T255 includes components m=1,2,...,255.
-- Very short waves are not present
-
-# Spectral decomposition in 2D
- - Previously only considered longitude (x) dimension
- - Need to also consider the latitude (y) direction
- - W-E (periodic): sine and cosine (zonal wavenumbers, m)
--  S-N (non-periodic): Legendre polynomials
-- m = zonal wavenumbers, n=total wavenumbers
-
-# Spectral models - practicalities
-- Each time-step is split between computations in grid point space and computations in spectral space. 
-- Semi-Lagrangian advection, physical parameterisations and products of terms are computed most efﬁciently in grid point space
-- horizontal gradients, semi-implicit calculations and horizontal diffusion are computed more efﬁciently in spectral space. 
-- The transform between these two spaces is performed on the sphere with spherical harmonics, that is computing these results along longitudes
-in a Fast Fourier transform (FFT) and a Legendre transform (LT) along latitudes. 
-
-# Spectral decomposition in 2D
-![](img/spectral.png)
-
-
-# Spatial resolution
-- Grid-point discretization: grid spacing <=> resolution of the model
-- Fourier series: number of waves <=> representation of wave combinations of different scales
-
-# Time integration of Fourier series
-- All computations in wave space
-- compute tendencies of amplitudes
-
-![](img/eqn_spectral.png)
-
-- Not very easy for humans to understand ->  transform output to grid-point space
-
-# Spectral transform method
-
-Short practical 
-
-<https://anmrde.github.io/spectral/>
-
-# Model execution - simplified!
-- Initialisation: create and read the initial state files and construct the state vector
-- Time evolution: selection of time-stepping method depends on the choice of discretization
-- Output: computer program writes the state vector (+ other variables) to the disk storage
-
-- <small> state vector = a vector containing model variables (e.g. u, v, T, q, p) </small>
-
-# Add physical processes
-- Previously: all (grid-scale) dynamics in wave space
-- Sub grid-scale physical processes are very complicated already in grid-point space
-	- How to combine dynamics and physics?
-	- Fourier transforms back and forth (fft)
-	
-# Overall model process
-- Compute dynamical tendencies in wave space
-- Transform model state to grid-point space
-- Compute sub-grid physics tendencies
-- Transform physical tendencies back to wave space
-- Combine dynamic and physical tendencies in wave space
-- Update model state using total tendencies and a time-stepping scheme
-
-# Grid box size / truncation and "resolution"
+# Grid box size and "resolution"
 - Often these terms are used inter-changeably but they do not mean the same thing!
 - Grid box size = how large in km or degrees the grid cells are
 - Resolution = what scale of atmospheric features you can resolve correctly with the given grid box size
 
-# Grid box size / truncation and "resolution"
+# Grid box size and "resolution"
 
  
 <div class="column" style="width:60%">
@@ -461,6 +378,155 @@ Typically models can only resolve features on spatial scales that are 5 – 7 ti
 </div>
 
 # Break
+
+# Spectral models - an alternative to finite differences
+- An alternative way to compute spatial and time derivatives
+- Both methods (grid point / finite difference models and spectral models) have advantages and disadvantages
+- Numerical methods used to solve the equations differs between grid point and spectral models
+
+- Give a quick overview to the spectral method 
+  - more in-depth detail can be found in the references listed at the of the slides
+  - some material from Andreas Muller, ECMWF
+  
+
+# Spectral methods
+- Key idea is to decompose the meteorological fields into a series of spectral harmonics in two dimensions
+- Similar to how a Fourier series decomposes a 1-D data set (e.g. timeseries) into a series of sines and cosines
+- Represent the spatial variations of variables as a finite series of waves of differing wavelengths.
+- Best suited to global models as these are periodic: $u(x) = u(x+2π)$
+
+<!--# Fourier series
+ $$\Phi = e^{i(kx + ly)} $$
+ $$\frac{\partial \Phi}{\partial x} =  ik \Phi   $$
+
+
+- Differentiation now becomes multiplication
+- Spatial derivatives can be computed analytically and very fast
+-->
+
+# Spectral methods 
+![](img/spectral_method.png)
+
+# Spectral methods 
+![](img/spectral_method2.png)
+ Differentiation now becomes multiplication
+
+# Spectral models - resolution
+- Resolution is a function of the number of waves used in the model
+- Model resolution is limited by the maximum number of waves
+- Often discussed in terms of truncation (truncated series)
+  - very short waves are not represented
+  
+# Spectral models - resolution
+- Example: Fourier series truncation 10 means there are 10 sine terms, 10 cosine terms, plus a mean term
+- IFS uses triangular truncation of spherical harmonics, e.g. T159, T255, T511, or T1279 number of terms (“T” for triangular)
+
+
+# Challenges with spectral models
+- Dealing with the output
+- The Earth is not flat and also has 2 spatial dimensions - not so simple as a Fourier transform
+- The "Physics" and non-linear terms still need to be computed in grid point space
+  
+   
+# Challenge #1: Model output
+- The state variables are stored as amplitudes of the spherical harmonics
+- Explains the complicated model output 
+ - Some variables saved in grid point space, other as spectral coefficients
+ - Can have two files for each output timestep
+
+
+# Challenge #2: Spectral decomposition on a sphere
+![](img/spectral.png)
+
+# Challenge #2: Spectral decomposition on a sphere
+- W-E (periodic): sine and cosine (zonal wavenumbers, m)
+- S-N (non-periodic): Legendre polynomials
+- m = zonal wavenumbers, n=total wavenumbers
+
+# Challenges #3: transform between spectral and grid point space
+- The "Physics" and non linear terms still need to be computed in grid point space
+   - need to constantly transform between spectral and grid point space
+- For high resolution, this becomes computationally expensive
+  - 9 km grid spacing = 24% of run time for spectral transform
+  - 5 km grid spacing = 31%
+  - 1.25 km grid spacing = 41%
+   
+# Timestep in a spectral model   
+![](img/ifs_timestep.png)
+   
+
+
+# Spectral transform method
+
+Short practical:
+<https://anmrde.github.io/spectral/>
+
+
+
+
+# Part 3: State of NWP today & Reanalysis
+
+# State of NWP today
+<div class="column">
+<div style=font-size:0.8em>
+- Many different global and limited area NWP models have been developed and are run operationally
+- Forecast accuracy has increased at a rate of about 1 day per decade
+- A 5-day weather forecast today is as accurate as a 4-day forecast was 10 years ago
+- Weather Forecasts are now very accurate and save many lives and huge amounts of money each year
+- (communicating them to the public and stakeholders is still a huge challange)
+ </div>
+  </div>
+<div class="column">
+![](img/NWP_forecast_skill_over_years.png)
+
+<div style=font-size:0.4em> Bauer, P., Thorpe, A. & Brunet, G. The quiet revolution of numerical weather prediction. Nature 525, 47–55 (2015). <https://doi.org/10.1038/nature14956> </small>
+ </div>
+ </div>
+ 
+# The Integrated Forecast System (IFS)
+<div class="column" style="width:50%">
+<div style=font-size:0.8em>
+ - Developed by the European Centre for Medium Range Weather Forecasting (ECMWF)
+ - "System" includes the forecast (NWP) model **and**  observation processing **and** data assimilation scheme
+ - Now coupled to a dynamical ocean model, NEMO.
+ - Written in Fortran
+ - OpenIFS is a version of the IFS that is available to universities and research institutes. 
+	 - now includes basic aerosol and chemistry
+ </div>
+  </div>
+<div class="column" style="width:45%">
+![](img/IFS_info.png)
+ </div>	 
+ 
+ 
+# ICON (Icosahedral Nonhydrostatic) Model
+<div class="column" style="width:75%"> 
+<div style=font-size:0.8em>
+-  ICON (ICOsahedral Nonhydrostatic) is a modeling framework for weather and climate
+-  Solves the full three-dimensional non-hydrostatic and compressible Navier-Stokes equations on an icosahedral grid 
+-  Allows for predictions from local to global scales
+-  Jointly developed by the German Weather Service (DWD), the Max Planck Institute for Meteorology (MPI-M), the German Climate Computing Center (DKRZ) and the Karlsruhe Institute for Technology 
+-  <https://www.icon-model.org/>
+- Lots more about ICON later this week!
+</div>
+</div>
+
+<div class="column" style=width:20%>
+![](img/r2b02_europe.png)
+</div>
+
+# RMSE for 6 different global NWP models
+<div class="column">
+![](img/rmse.png)
+</div>
+
+<div class="column">
+- 5-day forecasts of the 500-hPa geopotential height over the past 5 weeks from 5 different global models
+- RMSE averaged over the northern hemisphere extra-tropics
+- Some periods are easier to predict than others
+- Some weather patterns are easier to predict.
+</div>
+
 
 # Ensemble Forecasting (1)
 <div class="column" style="width:60%">
@@ -520,51 +586,6 @@ https://www.e-education.psu.edu/meteo810/content/l4_p6.html </div>
 Can compute probabilities of certain weather events, e.g. temperature exceeding 25C  (from www.ecmwf.int)
 
 
-# State of NWP today
-<div class="column">
-<div style=font-size:0.8em>
-- Many different global and limited area NWP models have been developed and are run operationally
-- Forecast accuracy has increased at a rate of about 1 day per decade
-- A 5-day weather forecast today is as accurate as a 4-day forecast was 10 years ago
-- Weather Forecasts are now very accurate and save many lives and huge amounts of money each year
-- (communicating them to the public and stakeholders is still a huge challange)
- </div>
-  </div>
-<div class="column">
-![](img/NWP_forecast_skill_over_years.png)
-
-<div style=font-size:0.4em> Bauer, P., Thorpe, A. & Brunet, G. The quiet revolution of numerical weather prediction. Nature 525, 47–55 (2015). <https://doi.org/10.1038/nature14956> </small>
- </div>
- </div>
- 
-# The Integrated Forecast System (IFS)
-<div class="column">
-<div style=font-size:0.8em>
- - Developed by the European Centre for Medium Range Weather Forecasting (ECMWF)
- - "System" includes the forecast (NWP) model **and**  observation processing **and** data assimilation scheme
- - Now coupled to a dynamical ocean model, NEMO.
- - Written in Fortran
- - OpenIFS is a version of the IFS that is available to universities and research institutes. 
-	 - now includes basic aerosol and chemistry
- </div>
-  </div>
-<div class="column">
-![](img/IFS_info.png)
- </div>	 
- 
- 
-# ICON (Icosahedral Nonhydrostatic) Model
-<div class="column">
-- Developed and run by the German Weather Service - Deutscher Wetterdienst (DWD)
-- Has an Icosahedral grid - this avoids the "pole problem"
--  <https://www.icon-model.org/>
-</div>
-
-<div class="column">
-![](img/r2b02_europe.png)
-</div>
-
-# RMSE for 6 different global NWP models
 
 # Reanalysis data
 <div class="column" style="width:60%">
@@ -592,24 +613,28 @@ new-reanalysis-weather-and-climate-data   </div>
 - Ideal training dataset for ML models
 
 
-# Part 3: What are Earth System Models (ESMs)
+# Part 4: What are Earth System Models (ESMs)
 
-# Earth System Models (1)
+# Earth System Models
 - How do these differ from a numerical weather prediction model?
 
-# Earth System Models (2)
-- Includes all aspects of the Earth system -  physical, chemical and biological processes
+# Earth System Models
+- Includes all aspects of the Earth system - physical, chemical and biological processes – not just the atmosphere
 - Includes the global carbon cycle, dynamic vegetation, atmospheric chemistry, ocean bio-geo-chemistry and ice sheets
 - Many different sub-models that are coupled together - massive amount of code!
 - These models participate in CMIP (Coupled Model Intercomparison Project)
+- Atmospheric part is the same dynamics + physics (and sometimes even the same code) as NWP models
 
-# Earth System Models (3)
+
+# Earth System Models - feedbacks
 - Allow for complex feedbacks to be modelled
 - Two examples:
 	- increasing CO_2 emissions -> increased temperatures -> sea ice loss -> increased albedo -> increased temperatures
 	- increased temperatures -> more biogenic emissions from vegetation -> potentially more aerosol -> more CCN -> diffreent cloud properties
 	
 - many more feedbacks exist!
+
+
 
 # EC-Earth
 <div class="column">
@@ -621,14 +646,24 @@ new-reanalysis-weather-and-climate-data   </div>
 ![](img/ECEarth.png)
 </div>
 
+# EC-Earth 
+<div class="column" style="width:60%">
+- Contains many different models of different parts of the Earth System
+- These need to be coupled together – can be a computational bottleneck
+</div>
+
+<div class="column" style="width:35%">
+![](img/gmd_ecearth_components.png)
+</div>
 
 # EC-Earth 
-<div class="column">
+<div class="column" style="width:60%">
 - Many variables need to be passed back and forward between the different components of an ESM.
 - Red arrows with numbers indicate the time frequency that variables are passed
   - range from 45 minutes to 1 year depending on the processes
+- Traditionally chemistry was a separate model, now moving to combine it with the atmospheric model
 </div>
-<div class="column">
+<div class="column" style="width:35%">
 ![](img/gmd_ecearth_components.png)
 </div>
 
@@ -640,12 +675,12 @@ Variables that are passed from the atmosphere model (IFS) to the Chemistry Trans
 ![](img/ec_earth_table.png)
 </div>
 
-# Part 4: Remaining challenges
+# Part 5: Remaining challenges
 
 # Remaining challenges
 - What do you think the biggest challenges are in:
 	- Numerical Weather Prediction?
-   - Climate modelling? 
+   -  Earth System modelling? 
  
 - Discuss with the people next to you
 
@@ -655,12 +690,28 @@ Variables that are passed from the atmosphere model (IFS) to the Chemistry Trans
 - Including more and more processes increases computational cost
 - Almost all NWP and ESM models are written in Fortran
 
+# A few words about my own research
+ - If you are interested, have similar interests please come and talk to me
+
+#
+![](img/my_research1.png){width=80%}
+
+#
+![](img/my_research2.png){width=80%}
+
+ 
+
 # Thank you
 
 Any questions?
 
 victoria.sinclair@helsinki.fi
 
+# Useful textbooks
+- "Atmospheric modeling, data assimilation and predictability" by Eugenia Kalnay (2003; Cambridge University Press).
+- "Numerical weather and climate prediction" by Thomas Tomkins Warner (2011; Cambridge University Press).
+- "Operational weather forecasting" by Peter Innes and Steve Dorling (2013; Wiley-Blackwell).
+- "Basic Numerical Methods in Meteorology and Oceanography" by Kristofer Döös, Peter Lundberg, Aitor Aldama Campino  https://doi.org/10.16993/bbs 
 <!--CHARNEY, J.G., FJÖRTOFT, R. and Von NEUMANN, J. (1950), Numerical Integration of the Barotropic Vorticity Equation. Tellus, 2: 237-254. https://doi.org/10.1111/j.2153-3490.1950.tb00336.x
 
 # Quick cut-n-paste snippets for easy reference
