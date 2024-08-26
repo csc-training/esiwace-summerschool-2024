@@ -13,6 +13,8 @@ Feel free to fork this repository and work through the material, which is separa
 Exercises and slides can be found in their respective folders. However, slides are also available at:
  - https://csc-training.github.io/esiwace-summerschool-2024/
 
+Course schedule and banner can be found in the "img" folder at the root-
+
 ---
 ## Notes
 - [] Have fun!
