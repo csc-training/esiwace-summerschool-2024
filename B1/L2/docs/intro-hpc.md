@@ -5,6 +5,11 @@ author: Claudia Frauen and Jarmo Mäkelä
 lang:   en
 ---
 
+# Where to find the summer school material
+
+- For slides see: https://csc-training.github.io/esiwace-summerschool-2024/
+- For hands-on and exercises see: https://github.com/csc-training/esiwace-summerschool-2024
+
 # What is high-performance computing
 
 - Utilizing computing power that is much larger than available in a typical desktop computer
@@ -50,7 +55,10 @@ lang:   en
 
 # Example Blue Marble simulation
 
-![<span style="font-size:75%;">Original NASA Blue Marble photo (left), visualization (right; copyright: MPI-M, DKRZ, NVIDIA)</span>](img/blue_marble.png){.center width=70%}
+
+<a href="https://www.youtube.com/watch?v=Nict8tBs4IY">Video link</a>
+
+![<span style="font-size:60%;">Original NASA Blue Marble photo (left), visualization (right; copyright: MPI-M, DKRZ, NVIDIA)</span>](img/blue_marble.png){.center width=60%}
 
 # Example Blue Marble simulation
 
@@ -121,7 +129,10 @@ lang:   en
 # Jupyterhub
 
 * For interactive Python work you can also log in to [https://jupyterhub.dkrz.de](https://jupyterhub.dkrz.de)
-<br>FIXME: insert screenshot of login mask when project and reservation are set up
+<br>
+
+![](img/jupyterhub_login.png){.center width=50%}
+
 * [DKRZ Jupyterhub Documentation](https://docs.dkrz.de/doc/software&services/jupyterhub/index.html)
 
 # File systems
@@ -133,7 +144,24 @@ lang:   en
 
 # Hands-On I
 
-* Logging in to Levante and cloning the summerschool repo
+* Log in via ssh to levante and go to your summer school work directory
+* Clone the summer school repo:
+
+```
+git clone https://github.com/csc-training/esiwace-summerschool-2024
+```
+* Log in to https://jupyterhub.dkrz.de
+* Select the kernel `0 Python 3 based on the module python3/unstable`
+
+# Hands-On I 
+* In the summer school directory you can find an example notebook: `esiwace-summerschool-2024/B2/L6/docs/examples.ipynb`
+* Open it in jupyterhub
+* Insert a cell at the beginning, which executes the following command: 
+```
+%pip install easygems
+```
+* Execute the whole notebook and check that everything worked
+* End your session by going to `File -> Hub Control Panel` and click `stop`
 
 # Partitions
 
@@ -263,7 +291,26 @@ For more info see [here](https://docs.dkrz.de/doc/levante/running-jobs/slurm-int
 
 # Hands-On II
 
-* salloc, sbatch, writing first batch script, modules
+* Log in to levante and go to your summer school work directory
+* In the folder `esiwace-summerschool-2024/B1/L2/exercises` you find some example programs
+* Check the available modules
+* Load the gcc compiler
+* Compile the program `hello_world.f90`:
+```
+gfortran hello_world.f90 -o a.out
+```
+* Use `salloc` to allocate 4 cores of 1 node in the `shared` partition and execute the program there
+
+# Hands-On II
+
+* Check for available openmpi modules and load the one built with gcc
+* Compile the program `hello_world_mpi.f90`:
+```
+mpifort hello_world_mpi.f90 -o b.out
+```
+* Execute the program
+* If successfull end your allocation
+* Write a batch script that executes the program on 8 cores of 1 nodes in the `shared` partition
 
 # Parallel computing and programming {.section}
 
