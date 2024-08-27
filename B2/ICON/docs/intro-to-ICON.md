@@ -1,7 +1,7 @@
 ---
 title:  The ICOsahedral Nonhydrostatic model (ICON)
 event:  ESiWACE3-WarmWorld Summer School on HPC for Climate and Weather Applications
-author: Florian Ziemen and Claudia Frauen
+author: Claudia Frauen and Florian Ziemen
 lang:   en
 ---
 
@@ -9,9 +9,14 @@ lang:   en
 
 ![](img/ICON_logo_black.jpg){.center width=15%}
 
-- ICON stands for ICOsahedral Nonhydrostatic model and is a weather and climate model with atmosphere, ocean and land components
-- Its development started more than two decades ago; initially by the German Weather Service (DWD) and the Max Planck Institute for Meterology (MPI-M), later joined by the Karlsruhe Institute for Technology (KIT) and the German Climate Computing Center (DKRZ) and latest the Swiss Center for Climate Systems Modeling (C2SM)
-- Since January 2024 it is available under an open source license via https://www.icon-model.org/
+- ICOsahedral Nonhydrostatic model, a weather and climate model with atmosphere, ocean and land components.
+- Its development started more than two decades ago; partners:
+  - German Weather Service (DWD)
+  - Max Planck Institute for Meterology (MPI-M)
+  - Karlsruhe Institute for Technology (KIT)
+  - German Climate Computing Center (DKRZ)
+  - Swiss Center for Climate Systems Modeling (C2SM)
+- Open source: https://www.icon-model.org/
 
 # What are the components of ICON?
 
@@ -109,16 +114,8 @@ git clone https://gitlab.dkrz.de/flo/icon_with_python.git
 
 - Finally, we need a run script
 - ICON comes with a number of run script templates for different types of experiments, which you can find in the directory `icon/run`
-- After successfully configuring the model you can use `make_runscripts` to create a run script based on such a template for your target system
+- We have prepared a runscript for you. The `build.sh` script links it to `icon/build/run/exp.slo1684.run`
 
-```
-if [ ! -f run/exp.esm_bb_ruby0_hiopy ]; then
-    cp run/exp.esm_bb_ruby0 run/exp.esm_bb_ruby0_hiopy
-    cat ../../hiopy_run_script_extension >> run/exp.esm_bb_ruby0_hiopy
-fi
-./make_runscripts esm_bb_ruby0_hiopy
-
-```
 # How is ICON programmed?
 
 - ICON is written mosten in Fortran and consists of more than 1 million lines of code
@@ -128,7 +125,7 @@ fi
 
 # What hardware can ICON run on?
 
-* ICON is running and regularly tested on a variety of hardware architectures and can in principal run on everything from a laptop to the largest supercomputers in the world
+* ICON is running and regularly tested on a variety of hardware architectures and can run on everything from a laptop to the largest supercomputers in the world
 * Standard CPU-systems like Levante (DKRZ)
 * GPU-based systems (atmosphere and land) like Levante, Alps (CSCS, Meteo Swiss), LUMI (CSC) and JUWELS Booster (JSC)
 * NEC vector (DWD)
@@ -196,6 +193,11 @@ nextGEMS R2B8/R2B9: 84% atmosphere, 14% ocean, 2.5% output
 #SBATCH --mem=0
 #SBATCH --time=06:00:00
 #=============================================================================
+```
+
+Please add
+```
+#SBATCH --qos=esiwace
 ```
 
 # What is in an ICON run script?
@@ -291,21 +293,6 @@ add_link_file ${datadir}/bc_aeropt_kinne_sw_b14_coa.nc                  ./
 # What is in an ICON run script?
 
 - Lots of namelists defining the model configuration
-- e.g. defining which advection schemes to use for the different tracers
-
-```
-&transport_nml
- ivadv_tracer            = 3,3,3,3,3
- itype_hlimit            = 3,4,4,4,4,0
- ihadv_tracer            = 32,2,2,2,2,0
-/
-```
-
-- For details on all the namelist settings see ICON_Namelist_Overview.pdf in your `/icon/doc` folder
-
-# What is in an ICON run script?
-
-- Another example -> radiation settings:
 
 ```
 &radiation_nml
@@ -330,7 +317,27 @@ add_link_file ${datadir}/bc_aeropt_kinne_sw_b14_coa.nc                  ./
 
 # What is in an ICON run script?
 
-- Coupling setup
+- The coupling configuration
+```
+cat > coupling_${EXPNAME}.yaml << EOF
+definitions:
+  atm2oce: &atm2oce
+    src_component: ${modelname_list[0]}
+    src_grid: icon_atmos_grid
+    tgt_component: ${modelname_list[1]}
+    tgt_grid: icon_ocean_grid
+    time_reduction: average
+[...]
+  - <<: [ *oce2atm, *conserv_interp_stack ]
+    coupling_period: ${couplingTimeStep}
+    field: [sea_surface_temperature]
+    scale_summand: 0
+[...]
+EOF
+```
+
+# What is in an ICON run script?
+
 - Output settings
 - Restart information
 - ...
@@ -338,9 +345,9 @@ add_link_file ${datadir}/bc_aeropt_kinne_sw_b14_coa.nc                  ./
 # Preparing ICON experiments
 
 - Was your build script successfull?
-- If so, you should have your icon binary in `/icon_with_python/icon/build/bin`
-- And a run script `exp.slo1684.run` in `/icon_with_python/icon/build/run`
-- Let's modify your run scripts,so that we can run a variety of experiments
+- If so, you should have your icon binary in `icon_with_python/icon/build/bin`
+- And a run script `exp.slo1684.run` in `icon_with_python/icon/build/run`
+- Let's modify your run scripts, so that we can run a variety of experiments
 
 # Experiments
 
@@ -348,7 +355,6 @@ add_link_file ${datadir}/bc_aeropt_kinne_sw_b14_coa.nc                  ./
 - Groups 3 and 4: Multiply the GHG concentrations by four
 - Groups 5 and 6: Add 4 K to the ocean temperature reported to the atmosphere.
 - Groups 7 and 8: Combine the effects of group 3/4 and 5/6
-- Groups 9 and 10: Run the model as-is
 
 Groups with even numbers, add 0.01 PPM (parts per million) to the CO2 concentration.
 
