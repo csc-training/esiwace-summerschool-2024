@@ -88,3 +88,7 @@ tas[:, :, :] = 0.0
 - NetCDF4 for python has a good documentation:
     - https://unidata.github.io/netcdf4-python/
 
+- Supports parallellisation (with e.g. mpi4py)
+
+- Try it out yourselves!
+

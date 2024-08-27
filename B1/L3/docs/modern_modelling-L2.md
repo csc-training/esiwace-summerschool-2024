@@ -61,20 +61,23 @@ lang:   en
 
 # What about NWP?
 
-- There have been multiple new ML-based approaches to simulate weather forecasts
+<div class="column">
+- Multiple new ML-based approaches to simulate weather forecasts (all with ERA5)
     - Nvidia's FourCastNet (Fourier ForeCasting Neural Network)
     - Google's NeuralGCM and GraphCast
     - Huawei's Pangu-Weather model
     - ECMWF's AIFS
 
-- All utilise ERA5 (global predictions at 0.25 degree resolution)
-
 - https://www.youtube.com/watch?v=nuT_U1AQz3g
+</div>
+<div class=column>
+![](img/fourcastnet.png){.center width=600}
+<div style="text-align:center"><span style="font-size:0.4em"> FourCastNet Fig. 101 24 hour prediction of the integrated vertical column of atmospheric water vapor predicted by Modulus Sym compared to the ground truth ERA5 dataset from ECMWF.</div>
+
 
 # Time for some exercises
 
 - Choose based on your background:
     - https://github.com/csc-training/intro-to-ml/
     - https://github.com/csc-training/intro-to-dl/
-
 
