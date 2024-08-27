@@ -226,8 +226,8 @@ What country was it run in?
   - large scale resolved processes
   - advection, pressure gradients, Coriolis force
   
-- "Physics" 
-  - same scale processes, the efffects of which on the dynamics is parameterized
+- "Physics"
+  - small scale processes, the effects of which on the dynamics is parameterized
 
 
 # Building the dynamics and physics into a model
@@ -629,8 +629,8 @@ new-reanalysis-weather-and-climate-data   </div>
 # Earth System Models - feedbacks
 - Allow for complex feedbacks to be modelled
 - Two examples:
-	- increasing CO_2 emissions -> increased temperatures -> sea ice loss -> increased albedo -> increased temperatures
-	- increased temperatures -> more biogenic emissions from vegetation -> potentially more aerosol -> more CCN -> diffreent cloud properties
+	- increasing CO_2 emissions -> increased temperatures -> sea ice loss -> decreased albedo -> increased temperatures
+	- increased temperatures -> more biogenic emissions from vegetation -> potentially more aerosol -> more CCN -> different cloud properties
 	
 - many more feedbacks exist!
 
