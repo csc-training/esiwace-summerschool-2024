@@ -85,3 +85,4 @@ lang:   en
     - https://archive.ics.uci.edu/
     - MNIST and Fashion-MNIST are very large
     - e.g. IRIS for classification or Auto MPG for regression
+    - remember to change the kernel to ML appropriate

@@ -11,7 +11,7 @@ lang:   en
 
 - Focus on two data formats: NetCDF4 and zarr (and xarray)
 
-- Finalize on an overview of ESMValTool
+- Finalize on a short overview of ESMValTool
 
 # What kinds of data do we have?
 
@@ -28,7 +28,7 @@ lang:   en
 - HDF (Hierarchical Data Format) is used in EO and satellite data
     - Under the hood of netCDF
 
-- zarr is the modern alternative for the above
+- Zarr is the modern alternative for the above
     - Supports chunking, compression and can store metadata
 
 # The ESM data standards
@@ -126,10 +126,11 @@ tas[:, :, :] = 0.0
 import zarr
 import xarray as xr
 z = zarr.zeros((10000, 10000), chunks=(1000, 1000), dtype='i4')
+
 zarr.save('zarr_path', z)
 x = xr.open_zarr(`zarr_path`)
-
 ```
+
 - `chunks` means the size of a chunk
 - when operating on an array, try to "respect" chunk boundaries
 - many types of support to make this safe, e.g., chunk-level synchronization `synchronizer=zarr.ThreadSynchronizer()
@@ -147,16 +148,50 @@ x = xr.open_zarr(`zarr_path`)
 - Additionally, through Zarr, xarray can read and write data directly to cloud storage solutions
     -  AWS S3, Google Cloud Storage, and other scalable storage backends
 
+# Zarr groups
+
+- Zarr groups are hierarchical containers used to store datasets and metadata
+
+-Pseudocode
+
+```
+zf = zarr.open('example_group.zarr', mode='w') # new file
+zg1 = zf.create_group("group1") # new group 
+zd1 = zg1.create_dataset("mydata",data,chunks=(X,X,X) # new data
+zg1.tree() # Prints the hierarchical structure of the group
+
 # Try it out!
 
-- With e.g. the help of the tutorial
-    - https://zarr.readthedocs.io/en/stable/tutorial.html
-    - use can also use `timeit` to time the operations and compare with other options
+- More syntax: https://zarr.readthedocs.io/en/stable/tutorial.html
+    - you can also use `timeit` for comparison with other options
     
 - Use zarr to create and save a "large" dataset, splitting the data into chunks and compressing it
+    - Open with xarray to access the Zarr dataset lazily
+    - Check also usage differences between labels and metadata
+    - Analyze with xarray labeled operations, averaging over dimensions etc.
 
-- Open with xarray to access the Zarr dataset lazily
+- With the help of, for example google, try read parallellisation with dask and compute the zarr array average.
+ 
+# ESMValTool
 
-- Check also differences between labels and metadata nad how to access
+- Earth System Model Evaluation Tool (ESMValTool) is a community diagnostic and performance metrics tool for routine evaluation of Earth system models in CMIP
+    - https://github.com/ESMValGroup/ESMValTool
 
-- Analyze with xarray_ labeled operations, averaging over dimensions etc.
+![<span style="font-size:50%;"></span>](img/ESMValTool-logo-2.png){.center width=65%}
+
+- https://www.youtube.com/watch?v=sidM4EB6Sbo&list=PLfNPd2rlkdzOxdo5tAZHS3VUeMFn2QwAj
+
+# ESMValtool functionality
+
+- Expects data in CMOR standardized form
+
+- Has a lot of recipes/diagnostics based on scientific publications
+    - You can also develop your own recipes
+
+- Standard utilisation is relatively easy
+    - utilising default configs
+    - the tool can automatically download needed CMIP data
+
+- Developing own diagnostics has a bit of a steeper learning curve
+    - local / regional diagnostics not in the focus
+
