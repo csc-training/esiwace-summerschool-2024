@@ -63,7 +63,7 @@ x = xr.open_zarr(`zarr_path`)
 
 - Zarr groups are hierarchical containers used to store datasets and metadata
 
--Pseudocode
+- Pseudocode
 
 ```
 zf = zarr.open('example_group.zarr', mode='w') # new file
