@@ -81,3 +81,6 @@ lang:   en
     - https://github.com/csc-training/intro-to-ml/
     - https://github.com/csc-training/intro-to-dl/
 
+- You can choose another dataset
+    - MNIST and Fashion-MNIST are very large
+    - e.g. IRIS for classification or Auto MPG for regression
