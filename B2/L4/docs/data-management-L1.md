@@ -1,5 +1,5 @@
 ---
-title:  ESM data management
+title:  ESM data management L1
 author: Jarmo Mäkelä
 event:  ESiWACE3-WarmWorld Summer School 2024
 lang:   en
