@@ -70,6 +70,7 @@ zf = zarr.open('example_group.zarr', mode='w') # new file
 zg1 = zf.create_group("group1") # new group 
 zd1 = zg1.create_dataset("mydata",data,chunks=(X,X,X) # new data
 zg1.tree() # Prints the hierarchical structure of the group
+```
 
 # Try it out!
 
