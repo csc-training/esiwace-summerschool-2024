@@ -59,7 +59,7 @@ This course is based on the course "Introduction to GPU computing" by Marek Jaco
 # Why do we often use OpenACC for weather and climate models?
 
 * Weather and climate models are still mostly written in Fortran, have often been developed over decades, and can have more than a million lines of code
-* Directives provide a relatively easy way to port these code to GPUs while keeping the code easily readable also for non HPC experts
+* Directives provide a relatively easy way to port these codes to GPUs while keeping the code easily readable also for non HPC experts
 * When the GPU port of ICON was started OpenMP was not an option
 * For a long time NVIDIA was basically the only vendor of GPUs and invested significantly in the development of OpenACC, so that it can give relatively good performance on NVIDIA GPUs
 
@@ -324,7 +324,7 @@ Accelerator Kernel Timing data
 # Data clauses
 
 | <span style="font-size:75%;"> Clause </span> | <span style="font-size:75%;"> Behavior </span> |
-| - | ------ |
+| --- | ------ |
 | <span style="font-size:75%;"> COPYIN </span> | <span style="font-size:75%;"> Check if variables are already present on device; if not create space and copy data to device </span> |
 | <span style="font-size:75%;"> COPYOUT </span> | <span style="font-size:75%;"> Check if variables are already present on device; if not create space and copy resulting data from device </span> |
 | <span style="font-size:75%;"> COPY </span> | <span style="font-size:75%;"> Behaves like both COPYIN and COPYOUT </span> |
@@ -340,7 +340,7 @@ Within data regions host and device memory can be updated with the <span style="
 <br>
 
 | <span style="font-size:75%;"> Clause </span> | <span style="font-size:75%;"> Behavior </span> |
-| - | ------ |
+| --- | ------ |
 | <span style="font-size:75%;"> UPDATE DEVICE </span> | <span style="font-size:75%;"> Copy data from host to device </span> |
 | <span style="font-size:75%;"> UPDATE SELF </span> <br> <span style="font-size:75%;"> UPDATE HOST </span> | <span style="font-size:75%;"> Copy data from device to host </span> |
 
