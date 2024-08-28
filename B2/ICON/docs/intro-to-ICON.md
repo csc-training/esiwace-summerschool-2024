@@ -365,3 +365,24 @@ Groups with even numbers, add 0.01 PPM (parts per million) to the CO2 concentrat
 - [Phytoplankton in a high-res run](https://www.youtube.com/watch?v=vZ2P6N57oa0)
 
 # First look at your model data
+
+```python
+import intake
+cat = intake.open_catalog("/scratch/k/k202134/icon_with_python/outdata/flo0003.yaml")
+expid="flo0003"
+var='t_2m'
+ds=cat[expid].to_dask()
+ds[var].mean(dim="cell").plot()
+```
+
+# Second look at your model data
+
+```python
+import healpy as hp
+import matplotlib.pyplot as plt
+import numpy as np
+good = sum(np.isfinite(ds[var].mean(dim='cell')))
+plotdata = cat[expid](zoom=5).to_dask()[var].isel(time=good-1)
+hp.mollview(plotdata, flip='geo', nest=True, cmap='inferno')
+plt.title(str(plotdata.time.values)[:10])
+```
