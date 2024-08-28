@@ -4,19 +4,19 @@
 
 In this session we do the following exercises
 
-- [Exercise 1, hello world](/exercises/hello-world/)
-- [Exercise 2, vector sum](/exercises/vector-sum/)
-- [Exercise 3, double loop](/exercises/doubleloop/)
+- [Exercise 1, hello world](hello-world/)
+- [Exercise 2, vector sum](vector-sum/)
+- [Exercise 3, double loop](doubleloop/)
 
 ## OpenACC data management
 
 In this session we do the following exercises
 
-- [Exercise 4, jacobi](/exercises/jacobi/)
-- [Exercise 5, heat](/exercises/heat/)
+- [Exercise 4, jacobi](jacobi/)
+- [Exercise 5, heat](heat/)
 
 ## Profiling and performance optimization
 
 In this session we do the following exercises
 
-- Analyze performance of exercise heat. Use [solution](/exercises/heat/solution) if you did not finish it on your own in the last session.
+- Analyze performance of exercise heat. Use [solution](heat/solution) if you did not finish it on your own in the last session.
