@@ -1,11 +1,10 @@
 #!/bin/bash
-#SBATCH --account=FIXME
+#SBATCH --account=bb1153
 #SBATCH --ntasks=1
 #SBATCH --time=00:15:00
-#SBATCH --gres=gpu:v100:1
-#SBATCH --partition=gputest
-
-module load pgi/19.7 cuda/10.1.168
+#SBATCH --gpus=2
+#SBATCH --partition=gpu
+#SBATCH --reservation=esiwace_warmworld
 
 srun ./hello
 
@@ -13,5 +12,5 @@ srun ./hello
 #  sbatch job.sh
 
 # or alternatively, run directly from the command line:
-#  srun --account=FIXME --ntasks=1 --time=00:15:00 --gres=gpu:v100:1 \
-#       --partition=gputest ./hello
+#  srun --account=bb1153 --ntasks=1 --time=00:15:00 --gpus=2 \
+#       --partition=gpu --reservation=esiwace_warmworld ./hello
