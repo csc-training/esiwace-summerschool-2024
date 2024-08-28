@@ -1,7 +1,7 @@
 program hello
   implicit none
 
-  print *, 'Hello world!'
+  print *, 'Now I master!'
   !$omp parallel
   print *, 'X'
   !$omp end parallel

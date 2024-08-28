@@ -5,9 +5,9 @@
 ## Heat diffusion
 
 Heat flows in objects according to local temperature differences, as if seeking local equilibrium.
-Such processes can be described with partial differential equations and modeled numerically 
-via discretization to a regular grid. Solving for the flow over time can involve a lot of 
-computational effort. Fortunately that effort is quite regular and so can suit parallelization 
+Such processes can be described with partial differential equations and modeled numerically
+via discretization to a regular grid. Solving for the flow over time can involve a lot of
+computational effort. Fortunately that effort is quite regular and so can suit parallelization
 with a variety of techniques.
 
 ### Theory
@@ -31,11 +31,11 @@ the temperature field varies with the spatial dimensions *x* and
 ![img](img/no-nabla.png)
 
 Because computers are finite devices, we often need to solve such
-equations numerically, rather than analytically. 
+equations numerically, rather than analytically.
 This often involves *discretization*, where spatial and temporal
-variables only take on specific values from a set. 
+variables only take on specific values from a set.
 In this mini-app we will discretize all three dimensions *x*, *y*, and
-*t*, such that 
+*t*, such that
 
 <!-- Equation
 \begin{align*}
@@ -47,12 +47,12 @@ In this mini-app we will discretize all three dimensions *x*, *y*, and
 
 where *u(i,j)* refers to the temperature at location with
 integer index *i* within the domain of *x* spaced by ∆x and location
-with integer index *j* within the 
+with integer index *j* within the
 domain of *y* spaced by ∆y.
 
 Given an initial condition (*u*(t=0) = u0), one can follow the time
 dependence of the temperature field from state *m* to *m+1* over
-regular time steps ∆t with explicit 
+regular time steps ∆t with explicit
 time evolution method:
 
 <!-- Equation
@@ -119,6 +119,8 @@ Examples on how to run the binary:
 The program will produce an image (PNG) of the temperature field after every
 500 iterations. You can change the frequency by modifying the parameter
 `image_interval` in [main.c](cpp/main.cpp) (or [main.F90](fortran/main.F90)).
-You can also visualize the images e.g. with the following command:
-`animate heat_*.png`.
+You can also visualize the images e.g. with 
+`animate -resize 25% -delay 100 heat_*.png`
+or
+`eog heat_0100.png'
 

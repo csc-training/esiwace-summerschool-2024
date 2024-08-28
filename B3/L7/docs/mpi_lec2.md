@@ -129,16 +129,6 @@ MPI_Bcast(`buf`{.input}`fer`{.output}, `count`{.input}, `datatype`{.input}, `roo
     : Type of elements in buffer
 
   : integer `root`{.input}
-  : type(\*) `buf`{.input}`fer(..)`{.output}
-    : Data to be broadcasted / received
-
-  : integer `count`{.input}
-    : Number of elements in buffer
-
-  : integer `datatype`{.input}
-    : Type of elements in buffer
-
-  : integer `root`{.input}
     : The rank of sending process
 
   : integer `comm`{.input}
@@ -502,7 +492,19 @@ MPI_Alltoall(`sendbuf`{.input}, `sendcount`{.input}, `sendtype`{.input}, `recvbu
 - Collective reduction operations enable straightforward arithmetics across multiple processes
 
 
+# Exercise 2
 
+- `git clone https://github.com/csc-training/esiwace-summerschool-2024`  <br>
+  (or update existing `git pull origin main`)
+
+- Lunch ~12:00
+
+- Take breaks :)
+
+- References:
+    - https://rookiehpc.org/mpi/docs/index.html
+    - https://docs.open-mpi.org/en/v5.0.x/man-openmpi/index.html
+    - https://www.mpich.org/static/docs/latest/
 
 
 

@@ -1,7 +1,7 @@
 program hello
   implicit none
 
-  ! TODO: say hello! in parallel
-  write(*,*) 'Hello!'
+  ! TODO: say something in parallel
+  write(*,*) "Soon I'll master!"
 
 end program hello

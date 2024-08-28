@@ -199,8 +199,8 @@ mpirun -n 4 ./a.out
 - Slurm job scheduling system
     - Allocate resources on compute nodes + srun
 ```bash
-salloc --nodes=1 --ntasks=4 -p <partition> -A <account> --t 00:10:00
-srun ./a.out
+salloc --ntasks=4 -p <partition> -A <account> --t 00:10:00
+srun -n 4 ./a.out
 ```
 
     - Submit a batch job script (templates provided in exercises)
@@ -397,6 +397,25 @@ MPI_Recv(`buf`{.input},`count`{.input},`datatype`{.input},`source`{.input},`tag`
 - MPI processes held by a *communicator* object
 
 - Explicit send/receive calls to exchange data between specific processes
+
+
+# Exercise 1
+
+- `git clone https://github.com/csc-training/esiwace-summerschool-2024`  <br>
+  (or update existing `git pull origin main`)
+
+- Part II lecture at ~10:30
+
+- Take breaks :)
+
+- References:
+    - https://rookiehpc.org/mpi/docs/index.html
+    - https://docs.open-mpi.org/en/v5.0.x/man-openmpi/index.html
+    - https://www.mpich.org/static/docs/latest/
+
+
+
+
 
 
 

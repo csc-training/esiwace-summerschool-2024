@@ -11,7 +11,7 @@ program hello
      write(*,*) 'In total there are ', ntasks, 'tasks'
   endif
 
-  write(*,*) 'Hello from rank ', myid
+  write(*,*) 'Now I master, greetings from ', myid
 
   call mpi_finalize(err)
 

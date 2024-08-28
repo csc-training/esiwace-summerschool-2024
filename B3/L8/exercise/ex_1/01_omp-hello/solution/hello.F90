@@ -4,7 +4,7 @@ use omp_lib
 
   integer :: rank, threads
 
-  print *, 'Hello world!'
+  print *, 'Now I master!'
   !$omp parallel private(rank)
   rank = omp_get_thread_num()
   threads = omp_get_num_threads()

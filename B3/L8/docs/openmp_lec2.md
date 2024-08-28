@@ -321,6 +321,14 @@ END PROGRAM hello
 
 
 
+# Exercise 2
+
+- `git clone https://github.com/csc-training/esiwace-summerschool-2024`  <br>
+  (or update existing `git pull origin main`)
+
+- Lunch ~12:00
+
+- Take breaks :)
 
 
 

@@ -111,7 +111,7 @@ export OMP_NUM_THREADS=4
 - On Slurm-based HPC, e.g. Levante (assuming Intel compiler)
 ```bash
 ifort -qopenmp keys2lambo.f90 
-salloc --nodes=1 --ntasks=1 --cpus-per-task=4 -p <partition> -A <account> --t 00:10:00
+salloc --ntasks=1 --cpus-per-task=4 -p <partition> -A <account> --t 00:10:00
 export OMP_NUM_THREADS=4
 srun ./a.out
 ```
@@ -536,6 +536,17 @@ global = global + local
     - Can be resolved with additional constructs and/or algorthmic changes  
 
 
+# Exercise 1
+
+- `git clone https://github.com/csc-training/esiwace-summerschool-2024`  <br>
+  (or update existing `git pull origin main`)
+
+- Part II lecture ~10:30
+
+- Take breaks :)
+
+- References:
+    - https://www.openmp.org/wp-content/uploads/OpenMPRefGuide-5.2-Web-2024.pdf
 
 
 
