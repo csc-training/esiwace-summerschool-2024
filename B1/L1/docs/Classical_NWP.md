@@ -644,12 +644,3 @@ new-reanalysis-weather-and-climate-data   </div>
 ![](img/ECEarth.png)
 </div>
 
-# EC-Earth 
-<div class="column" style="width:60%">
-- Contains many different models of different parts of the Earth System
-- These need to be coupled together – can be a computational bottleneck
-</div>
-
-<div class="column" style="width:35%">
-![](img/gmd_ecearth_components.png)
-</div>
