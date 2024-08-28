@@ -635,12 +635,12 @@ new-reanalysis-weather-and-climate-data   </div>
 - many more feedbacks exist!
 
 # EC-Earth
-<div class="column">
+<div class="column" style="width:60%">
 - EC-Earth is one ESM, developed by a consortium in Europe (grey shaded countries)
 - <https://gmd.copernicus.org/articles/15/2973/2022/>
 </div>
 
-<div class="column">
+<div class="column" style="width:35%">
 ![](img/ECEarth.png)
 </div>
 
