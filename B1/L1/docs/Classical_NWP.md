@@ -634,3 +634,41 @@ new-reanalysis-weather-and-climate-data   </div>
 	
 - many more feedbacks exist!
 
+# EC-Earth
+<div class="column">
+- EC-Earth is one ESM, developed by a consortium in Europe (grey shaded countries)
+- <https://gmd.copernicus.org/articles/15/2973/2022/>
+</div>
+
+<div class="column">
+![](img/ECEarth.png)
+</div>
+
+# EC-Earth 
+<div class="column" style="width:60%">
+- Contains many different models of different parts of the Earth System
+- These need to be coupled together – can be a computational bottleneck
+</div>
+
+<div class="column" style="width:35%">
+![](img/gmd_ecearth_components.png)
+</div>
+
+# EC-Earth 
+<div class="column" style="width:60%">
+- Many variables need to be passed back and forward between the different components of an ESM.
+- Red arrows with numbers indicate the time frequency that variables are passed
+  - range from 45 minutes to 1 year depending on the processes
+- Traditionally chemistry was a separate model, now moving to combine it with the atmospheric model
+</div>
+<div class="column" style="width:35%">
+![](img/gmd_ecearth_components.png)
+</div>
+
+# EC-Earth 
+<div class="column">
+Variables that are passed from the atmosphere model (IFS) to the Chemistry Transport model (TM5) in EC-Earth3 and vice-versa.
+</div>
+<div class="column">
+![](img/ec_earth_table.png)
+</div>
