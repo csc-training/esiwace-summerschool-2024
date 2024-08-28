@@ -8,7 +8,7 @@ lang:   en
 # Contents in modern modelling
 
 - Containers and who needs them?
-- Overlook on how do we use machine learning in climate sciences
+- Overlook on how do we use machine learning (in climate sciences)
 - Explainable AI
 
 # Artificial Intelligence (AI) and Machine Learning (ML)
@@ -119,6 +119,9 @@ lang:   en
 
 - Open a shell in the container
     - `apptainer shell [shell options...] <container>`
+
+- Pulling Docker container from registry
+   - `singularity pull docker://`
 
 # File system
 

@@ -11,6 +11,8 @@ lang:   en
 
 - Focus on two data formats: NetCDF4 and zarr
 
+- Finalize on an overview of ESMValTool
+
 # What kinds of data do we have?
 
 ![<span style="font-size:50%;">https://www.climateurope.eu/wp-content/uploads/2016/03/Global_Observing_system_WMO.jpg</span>](img/Global_Observing_system_WMO.png){.center width=65%}
