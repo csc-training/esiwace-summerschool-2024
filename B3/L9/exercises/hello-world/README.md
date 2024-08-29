@@ -8,8 +8,7 @@ following module:
 module load nvhpc/24.5-gcc-13.3.0
 ```
 
-After this, you can compile the program using the NVHPC compiler (`nvc` or
-`nvfortran`):
+After this, you can compile the program using the NVHPC compiler (`nvfortran`):
 ```bash
 nvfortran -Minfo=all -acc=gpu,verystrict -gpu=cc80 -o hello hello.F90
 ```
