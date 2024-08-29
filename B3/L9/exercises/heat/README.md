@@ -54,7 +54,7 @@ run the binary:
   steps.
 
 The program will produce a `.png` image of the temperature field after every
-100 iterations. You can change that from the parameter `image_interval`. You
+10 iterations. You can change that from the parameter `image_interval`. You
 can visualise the images using the command animate: `animate heat_*.png`, or
 by using `eog heat_000.png` and using the arrow-keys to loop backward or
 forward through the files.
