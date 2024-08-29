@@ -24,7 +24,7 @@ lang:   en
 
 # What is visualization?
 
-![](images/ngc3028_tas.png){width=90%} 
+![](images/ngc3028_tas.png){width=80%} 
 
 # What is visualization?
 ![](images/visualization.png){width=100%}
@@ -93,7 +93,7 @@ See [xkcd](https://xkcd.com/977/) for an overview of more projections.
 
 A minimal version of the global mean surface air temperature plot.
 
-```
+```python
 import intake
 cat = intake.open_catalog("https://data.nextgems-h2020.eu/online.yaml")
 cat.ICON.ngc3028.to_dask().tas.mean(dim="cell").plot()
@@ -104,10 +104,9 @@ cat.ICON.ngc3028.to_dask().tas.mean(dim="cell").plot()
 
 # A minimal map plot
 
-```
+```python
 import intake
 import healpy as hp
-
 cat = intake.open_catalog("https://data.nextgems-h2020.eu/online.yaml")
 hp.mollview(cat.ICON.ngc3028.to_dask().tas.isel(time=0), flip='geo', nest=True)
 ```
@@ -118,18 +117,33 @@ This is a bit coarse. Let's go finer and switch the colormap
 
 # A nicer map plot
 
-```
+```python
 import intake
 import healpy as hp
-import matplotlib.pyplot as plt
 cat = intake.open_catalog("https://data.nextgems-h2020.eu/online.yaml")
 hp.mollview(cat.ICON.ngc3028(zoom=5).to_dask().tas.isel(time=0), flip='geo', nest=True, cmap='inferno')
-
 ```
 
 ![](images/healpix_l5.png){width=40%}
 
 Much better. :)
+
+# A more flexible map plotting system
+
+```python
+import intake
+import cartopy.crs as ccrs
+from easygems import healpix as egh
+cat = intake.open_catalog("https://data.nextgems-h2020.eu/online.yaml")
+projection = ccrs.Robinson(central_longitude=24.9)
+ax=egh.create_geoaxis(projection=projection)
+plotdata = cat.ICON.ngc3028(zoom=5).to_dask().tas.isel(time=0)
+fig = egh.healpix_show(plotdata, cmap='inferno', ax=ax, vmin=240, vmax=300)
+plt.colorbar(fig, orientation='horizontal')
+```
+
+![](images/egh_healpix_l5.png){width=30%}
+
 
 # Essential Python Libraries for Data Visualization
 
@@ -140,6 +154,14 @@ Much better. :)
 * [seaborn](https://seaborn.pydata.org/) - nicer visualizations
 * [dask](https://docs.dask.org/en/latest/) - last resort if you need parallelization
 
+# Ways of plotting maps
+
+* `plt.scatter()` draws circles / ... for datapoints
+* `plt.pcolor[mesh]()` draws the cells of data
+* `plt.imshow()` renders a 2d array as an image
+* `datashader` uses the GPU to draw triangles/..., can also bin data into pixels.
+
+What are the ups and down of the approaches?
 
 # Line plots and friends
 
@@ -206,7 +228,7 @@ Type:      function
 
 
 # Digging deeper
-```
+```python
 import intake
 import healpy as hp
 import pandas as pd
@@ -219,10 +241,15 @@ cells = hp.ang2pix(theta=theta, phi=phi, nside=2**zoom, lonlat=True, nest=True)
 tas = cat.ICON.ngc3028(zoom=zoom).to_dask().tas.isel(cell = cells)
 df = pd.DataFrame( dict(Hamburg=tas.isel(cell=0), Korpilampi=tas.isel(cell=1)), index=tas.time)
 df.plot()
+plt.savefig("images/pandas_ts_plot.png")
 ```
 
+# Digging deeper
+![](images/pandas_ts_plot.png){width=60%}
+
+
 # See if we got the points right
-```
+```python
 world=cat.ICON.ngc3028(zoom=zoom).to_dask().tas.isel(time=0)
 world[cells]= 4e2
 hp.mollview(world, flip='geo', nest=True, cmap='inferno')
@@ -240,7 +267,7 @@ plt.xlim(plt.ylim())
 
 
 # Filtering and subsetting data
-```
+```python
 from easygems.healpix import attach_coords
 ds = cat.ICON.ngc3028(zoom=5).to_dask().pipe(attach_coords)
 latgroups = ds.tas.isel(time=0).groupby('lat')
@@ -250,7 +277,7 @@ plt.xlim((-90,90))
 ![](images/tas_vs_lat.png){width=30%}
 
 # Vertical sections
-```
+```python
 from easygems.healpix import attach_coords
 ds = cat.ICON.ngc3028(zoom=5).to_dask().pipe(attach_coords)
 latgroups = ds.ta.isel(time=0).groupby('lat')
@@ -262,7 +289,7 @@ latgroups.mean().plot(cmap="inferno")
 What's wrong with this plot?
 
 # Vertical sections
-```
+```python
 from easygems.healpix import attach_coords
 ds = cat.ICON.ngc3028(zoom=5).to_dask().pipe(attach_coords)
 latgroups = ds.ta.isel(time=0).groupby('lat')
@@ -275,7 +302,7 @@ Better, but we'd actually want a different vertical axis in the data.
 
 # Saving figures
 
-```
+```python
 plt.savefig("filename.png")
 ```
 
@@ -296,7 +323,23 @@ plt.savefig("filename.png")
 * Use  `f"namebase_{timestep:04d}.png"` or similar to create an ascending numbering
 * Use something like `ffmpeg -framerate 30 -pattern_type glob -i "namebase_*.png"  -c:v libx264 -r 30 -pix_fmt yuv420p ouput_file.mp4` to convert into an animation.
 
+# Animating things
 
+```python
+import intake
+import cartopy.crs as ccrs
+from easygems import healpix as egh
+import matplotlib.pyplot as plt
+cat = intake.open_catalog("https://data.nextgems-h2020.eu/online.yaml")
+projection = ccrs.Robinson(central_longitude=24.9)
+for idx, plotdata in enumerate(cat.ICON.ngc3028(zoom=5).to_dask().tas.isel(time=slice(1,50,10))):
+    ax=egh.create_geoaxis(projection=projection)
+    fig = egh.healpix_show(plotdata, cmap='inferno', ax=ax, vmin=240, vmax=300)
+    plt.colorbar(fig, orientation='horizontal')
+    plt.title(str(plotdata.time.values)[:10])
+    plt.savefig(f"images/egh_healpix_l5_{idx:04d}.png")
+    plt.close('all')
+```
 
 # Jupyter notebooks and *plain* python scripts
 * Jupyter keeps the python running.
