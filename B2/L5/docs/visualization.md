@@ -154,6 +154,14 @@ plt.colorbar(fig, orientation='horizontal')
 * [seaborn](https://seaborn.pydata.org/) - nicer visualizations
 * [dask](https://docs.dask.org/en/latest/) - last resort if you need parallelization
 
+# Ways of plotting maps
+
+* `plt.scatter()` draws circles / ... for datapoints
+* `plt.pcolor[mesh]()` draws the cells of data
+* `plt.imshow()` renders a 2d array as an image
+* `datashader` uses the GPU to draw triangles/..., can also bin data into pixels.
+
+What are the ups and down of the approaches?
 
 # Line plots and friends
 
