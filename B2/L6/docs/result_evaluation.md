@@ -1,6 +1,6 @@
 ---
 title:  ESM result evaluation
-author: Florian Ziemen / DKRZ, Victoria Sinclair / University of Helsinki
+author: Florian Ziemen / DKRZ
 event:  ESiWACE3 and WarmWorld Summer School 2024
 lang:   en
 ---
