@@ -19,4 +19,4 @@ In this session we do the following exercises
 
 In this session we do the following exercises
 
-- Analyze performance of exercise jacobi or heat. Use [jacobi solution](jacobi/solution) [heat solution](heat/solution) if you did not finish it on your own in the last session.
+- Analyze performance of exercise jacobi or heat. Use  the [jacobi solution](jacobi/solution) or the  [heat solution](heat/solution) if you did not finish it on your own in the last session.
