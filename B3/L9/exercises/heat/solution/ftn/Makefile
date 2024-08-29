@@ -1,10 +1,10 @@
-COMP=pgi
+COMP=nvhpc
 
-ifeq ($(COMP),pgi)
-CC=pgcc
-FC=pgf90
-CCFLAGS=-g -acc -O3 -ta=tesla:cc70
-FCFLAGS=-g -acc -O3 -ta=tesla:cc70
+ifeq ($(COMP),nvhpc)
+CC=nvc
+FC=nvfortran
+CCFLAGS=-g -acc -O3 -target=gpu -gpu=cc80
+FCFLAGS=-g -acc -O3 -target=gpu -gpu=cc80
 # FCFLAGS=-g -Mbounds
 RUN=
 endif
