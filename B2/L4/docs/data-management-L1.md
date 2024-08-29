@@ -77,8 +77,8 @@ lon.units = "degrees_east"
 time.units = "days since 2000-01-01 00:00:00.0"
 time.calendar = "gregorian"
 
-lat[:] = np.linspace(-89.5, 89.5, 90)
-lon[:] = np.linspace(-179.5, 179.5, 180)
+lat[:] = np.linspace(-89.5, 89.5, 180)
+lon[:] = np.linspace(-179.5, 179.5, 360)
 
 tas = ds.createVariable("tas", "f4", ("time", "lat", "lon",))
 tas.units = "K"  

@@ -106,4 +106,3 @@ zg1.tree()
 
 - Developing own diagnostics has a bit of a steeper learning curve
     - local / regional diagnostics not in the focus
-
