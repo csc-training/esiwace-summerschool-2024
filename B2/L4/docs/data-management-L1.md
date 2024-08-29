@@ -68,9 +68,9 @@ ds = Dataset("test.nc", "w", format="NETCDF4")
 # NetCDF4 basic syntax
 
 ```
-time = ds.createDimension("time", "f8", None)
-lat = ds.createDimension("lat", "f4", 180)
-lon = ds.createDimension("lon", "f4", 360)
+time = ds.createDimension("times", None)
+lat = ds.createDimension("lats", 180)
+lon = ds.createDimension("lons", 360)
 
 lat.units = "degrees_north"
 lon.units = "degrees_east"
@@ -80,7 +80,7 @@ time.calendar = "gregorian"
 lat[:] = np.linspace(-89.5, 89.5, 180)
 lon[:] = np.linspace(-179.5, 179.5, 360)
 
-tas = ds.createVariable("tas", "f4", ("time", "lat", "lon",))
+tas = ds.createVariable("tas", "f4", ("times", "lats", "lons",))
 tas.units = "K"  
 tas.long_name = "Near-Surface Air Temperature"
 tas[:, :, :] = 0.0 
