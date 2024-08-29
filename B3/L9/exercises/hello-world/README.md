@@ -1,6 +1,6 @@
 # Hello world with OpenACC
 
-Compile and run a simple OpenACC test program, provided as `hello(.c|.F90)`.
+Compile and run a simple OpenACC test program, provided as `hello(.F90)`.
 
 In order to compile the program on Levante, you'll need to first load the
 following module:
