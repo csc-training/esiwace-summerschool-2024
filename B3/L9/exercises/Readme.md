@@ -13,10 +13,10 @@ In this session we do the following exercises
 In this session we do the following exercises
 
 - [Exercise 4, jacobi](jacobi/)
-- [Exercise 5, heat](heat/)
+- [Exercise 5, heat](heat/) (BONUS)
 
 ## Profiling and performance optimization
 
 In this session we do the following exercises
 
-- Analyze performance of exercise heat. Use [solution](heat/solution) if you did not finish it on your own in the last session.
+- Analyze performance of exercise jacobi or heat. Use [jacobi solution](jacobi/solution) [heat solution](heat/solution) if you did not finish it on your own in the last session.
