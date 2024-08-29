@@ -156,6 +156,9 @@ END DO
 
 # Hands-on exercises I
 
+* See https://github.com/csc-training/esiwace-summerschool-2024/tree/main/B3/L9/exercises
+* Exercises 1-3
+
 # Data transfer
 
 <div class=column style=width:45%>
@@ -937,6 +940,9 @@ end do
 
 # Hands-on exercises II
 
+* See https://github.com/csc-training/esiwace-summerschool-2024/tree/main/B3/L9/exercises
+* Exercise 4 (and 5 if there is time)
+
 # Shared memory
 
 * Parallel execution can lead to potentially incorrect results
@@ -990,6 +996,9 @@ end do
   * initcheck : Global memory initialization checking
 
 # Hands-on exercises III
+
+* See https://github.com/csc-training/esiwace-summerschool-2024/tree/main/B3/L9/exercises
+* Profiling and performance optimisation
 
 # OpenACC - OpenMP
 
