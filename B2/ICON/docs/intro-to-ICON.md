@@ -386,3 +386,7 @@ plotdata = cat[expid](zoom=5).to_dask()[var].isel(time=good-1)
 hp.mollview(plotdata, flip='geo', nest=True, cmap='inferno')
 plt.title(str(plotdata.time.values)[:10])
 ```
+
+# Want to learn more about ICON?
+
+[The DWD ICON model tutorial](https://www.dwd.de/DE/leistungen/nwv_icon_tutorial/pdf_einzelbaende/icon_tutorial2024.pdf;jsessionid=35224AFB7AD218D564A72308B297A03F.live11042?__blob=publicationFile&v=3)
