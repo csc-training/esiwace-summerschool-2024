@@ -1018,7 +1018,7 @@ end do
 * Profiling and performance optimisation
 
 # Interoperability with libraries (BONUS)
-- Often it may be useful to integrate the accelerated OpenACC code with other accelerated libraries
+- Often it may be useful to integrate the accelerated OpenACC code with other accelerated libraries or CUDA code. 
 - MPI,  CUBLAS, CUFFT, MAGMA, CULA...
 - mix OpenACC and CUDA: OpenACC for memory management and simple loops, use CUDA for heavy loops.
 
