@@ -375,31 +375,6 @@ Accelerator Kernel Timing data
 ```
 </div>
 
-
-
-# Data clauses
-
-| <span style="font-size:75%;"> Clause </span> | <span style="font-size:75%;"> Behavior </span> |
-| --- | ------ |
-| <span style="font-size:75%;"> COPYIN </span> | <span style="font-size:75%;"> Check if variables are already present on device; if not create space and copy data to device </span> |
-| <span style="font-size:75%;"> COPYOUT </span> | <span style="font-size:75%;"> Check if variables are already present on device; if not create space and copy resulting data from device </span> |
-| <span style="font-size:75%;"> COPY </span> | <span style="font-size:75%;"> Behaves like both COPYIN and COPYOUT </span> |
-| <span style="font-size:75%;"> CREATE </span> | <span style="font-size:75%;"> Check if variables are already present on device; if not create empty space </span> |
-| <span style="font-size:75%;"> PRESENT </span> | <span style="font-size:75%;"> Assume that variables are already present on device </span> |
-
-<span style="font-size:75%;"> Remark: Scalars are first private by default, they rarely appear in a data clause </span>
-
-# Update clauses
-
-Within data regions host and device memory can be updated with the <span style="color: green;"> `UPDATE` </span> clause
-
-<br>
-
-| <span style="font-size:75%;"> Clause </span> | <span style="font-size:75%;"> Behavior </span> |
-| --- | ------ |
-| <span style="font-size:75%;"> UPDATE DEVICE </span> | <span style="font-size:75%;"> Copy data from host to device </span> |
-| <span style="font-size:75%;"> UPDATE SELF </span> <br> <span style="font-size:75%;"> UPDATE HOST </span> | <span style="font-size:75%;"> Copy data from device to host </span> |
-
 # Optimization: Device data management
 
 <div class=column style=width:32%>
@@ -441,16 +416,6 @@ END PROGRAM
 * In order to avoid excessive data movement between the CPU and the GPU the programmer can manually allocate and transfer data on the GPU. Data can than be kept on the GPU and reused between different kernels
 
 </div>
-
-# Optimization: Device data management
-
-* Syntax: 
-<br>
-<span style="color: green;">`!$ACC DATA [data_clause]`</span>
-<br>
-<span style="color: green;">`!$ACC END DATA`</span>
-
-* data_clause: e.g. <span style="color: green;"> `CREATE` </span>, <span style="color: green;"> `COPYIN` </span>
 
 # Optimization: Device data management
 
@@ -504,6 +469,39 @@ Accelerator Kernel Timing data
         26: data copyout transfers: 1
              device time(us): total=28 max=28 min=28 avg=28
 ```
+
+# Optimization: Device data management
+
+* Syntax: 
+<br>
+<span style="color: green;">`!$ACC DATA [data_clause]`</span>
+<br>
+<span style="color: green;">`!$ACC END DATA`</span>
+
+* data_clause: e.g. <span style="color: green;"> `CREATE` </span>, <span style="color: green;"> `COPYIN` </span>
+
+# Data clauses
+
+| <span style="font-size:75%;"> Clause </span> | <span style="font-size:75%;"> Behavior </span> |
+| --- | ------ |
+| <span style="font-size:75%;"> COPYIN </span> | <span style="font-size:75%;"> Check if variables are already present on device; if not create space and copy data to device </span> |
+| <span style="font-size:75%;"> COPYOUT </span> | <span style="font-size:75%;"> Check if variables are already present on device; if not create space and copy resulting data from device </span> |
+| <span style="font-size:75%;"> COPY </span> | <span style="font-size:75%;"> Behaves like both COPYIN and COPYOUT </span> |
+| <span style="font-size:75%;"> CREATE </span> | <span style="font-size:75%;"> Check if variables are already present on device; if not create empty space </span> |
+| <span style="font-size:75%;"> PRESENT </span> | <span style="font-size:75%;"> Assume that variables are already present on device </span> |
+
+<span style="font-size:75%;"> Remark: Scalars are first private by default, they rarely appear in a data clause </span>
+
+# Update clauses
+
+Within data regions host and device memory can be updated with the <span style="color: green;"> `UPDATE` </span> clause
+
+<br>
+
+| <span style="font-size:75%;"> Clause </span> | <span style="font-size:75%;"> Behavior </span> |
+| --- | ------ |
+| <span style="font-size:75%;"> UPDATE DEVICE </span> | <span style="font-size:75%;"> Copy data from host to device </span> |
+| <span style="font-size:75%;"> UPDATE SELF </span> <br> <span style="font-size:75%;"> UPDATE HOST </span> | <span style="font-size:75%;"> Copy data from device to host </span> |
 
 # Explicit data transfer
 
