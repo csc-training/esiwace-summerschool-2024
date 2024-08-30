@@ -27,3 +27,6 @@ nsys profile -t nvtx,cuda -o results --stats=true --force-overwrite true ./a.out
 ```   
 ## Debugging
 - [Exercise 6, memory checking](out-of-bonds/)
+
+## Interoperability (BONUES) 
+- [Exercise 6, calling cuda library from openacc](curand-interoperability/)
