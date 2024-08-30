@@ -1020,13 +1020,9 @@ end do
 # Interoperability with libraries (BONUS)
 
 
-- Often it may be useful to integrate the accelerated OpenACC code with
-  other accelerated libraries
+- Often it may be useful to integrate the accelerated OpenACC code with other accelerated libraries
 - MPI,  CUBLAS, CUFFT, MAGMA, CULA...
-- to mix OpenACC and CUDA:
-    - Use OpenACC for memory management
-    - Introduce OpenACC in existing GPU code
-    - Use CUDA for tightest kernels, otherwise OpenACC
+- mix OpenACC and CUDA: OpenACC for memory management and simple loops, use CUDA for heavy loops.
 
 ```Fortran 
  
