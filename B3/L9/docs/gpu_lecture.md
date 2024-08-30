@@ -1018,7 +1018,6 @@ end do
 * Profiling and performance optimisation
 
 # Interoperability with libraries (BONUS)
-
 - Often it may be useful to integrate the accelerated OpenACC code with other accelerated libraries
 - MPI,  CUBLAS, CUFFT, MAGMA, CULA...
 - mix OpenACC and CUDA: OpenACC for memory management and simple loops, use CUDA for heavy loops.
@@ -1032,7 +1031,6 @@ istat = curandCreateGenerator(g, CURAND_RNG_PSEUDO_DEFAULT)  ! initialize the rn
 istat = curandGenerateUniform(g, x, n)
 istat = curandGenerateUniform(g, y, n)
 !$acc end host_data
-
 ```  
 
 
