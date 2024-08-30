@@ -18,6 +18,7 @@ istat = curandGenerateUniform(g, x, n)
 ```
 
 Here the vector `x` has to be a *device pointer*, so use correct `host_data` specification.
+
 In order to avoid memory leak, the resources used by the random number generator have to be freed:
 ```Fortran
 istat = curandDestroyGenerator(g)
