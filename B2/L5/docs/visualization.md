@@ -276,7 +276,8 @@ plt.xlim((-90,90))
 ```
 ![](images/tas_vs_lat.png){width=30%}
 
-# Vertical sections
+# Zonal mean sections
+
 ```python
 from easygems.healpix import attach_coords
 ds = cat.ICON.ngc3028(zoom=5).to_dask().pipe(attach_coords)
@@ -288,7 +289,8 @@ latgroups.mean().plot(cmap="inferno")
 
 What's wrong with this plot?
 
-# Vertical sections
+# Zonal mean sections
+
 ```python
 from easygems.healpix import attach_coords
 ds = cat.ICON.ngc3028(zoom=5).to_dask().pipe(attach_coords)
@@ -298,7 +300,40 @@ plt.ylim(plt.ylim()[::-1])
 ```
 ![](images/vert_sec_flipped.png){width=30%}
 
-Better, but we'd actually want a different vertical axis in the data.
+Better, but we'd actually want a different vertical axis in the data. See the evaluation slides for an example.
+
+
+# Vertical sections
+
+```python
+import numpy as np
+import healpy as hp
+import intake 
+import matplotlib.pyplot as plt
+
+cat = intake.open_catalog("https://data.nextgems-h2020.eu/online.yaml")
+zoom = 5
+phi=([-45, 60.3251229]) # latitudes of points
+theta = ([-100, 24.7303234]) # longitudes of points 
+vectors = hp.ang2vec(theta=theta, phi=phi, lonlat=True) # turn them into x/y/z coordinates
+steps = np.arange (0,1,.005) # 200 points along the way
+x, y, z  = np.outer(vectors[0], steps) + np.outer(vectors[1], 1-steps) # x/y/z of waypoints
+indices = hp.vec2pix(x=x, y=y, z=z, nside = hp.order2nside(zoom), nest = True) # healpix indices of waypoints
+data = cat.ICON.ngc3028(zoom=zoom).to_dask().ta.isel(time=0,cell=indices) # subsetting the data
+plt.imshow(data, cmap='inferno')
+```
+
+# Vertical sections - verification
+
+```python
+from easygems import healpix as egh
+import cartopy.crs as ccrs
+world=cat.ICON.ngc3028(zoom=zoom).to_dask().tas.isel(time=0)
+world[indices]= 4e2
+projection = ccrs.Gnomonic()
+ax = egh.create_geoaxis(projection=projection)
+egh.healpix_show(world, ax=ax)
+```
 
 # Saving figures
 
