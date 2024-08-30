@@ -154,6 +154,40 @@ END DO
 ```
 * `COLLAPSE(2)` tells the compiler to combine both loops and exposes maximum parallelism
 
+# Kernels construct
+
+<div class=column style=width:68%>
+
+* ACC <span style="color: green;"> KERNELS</span> are similar to <span style="color: green;"> PARALLEL</span> regions
+* A kernels region gives the compiler maximum freedom of the parallel implementation
+* Might be better or much worse than manual parallelization
+* For ICON we don’t recommend the use of kernels
+* Implicit Fortran loops are possible in kernels, but might be slower than explicit loops in a parallel region
+
+</div>
+
+<div class=column style=width:30%>
+
+```Fortran
+!$ACC KERNELS
+do i = 1, n
+   a(i) = 2.0 * b(i)
+end do
+!$ACC END KERNELS
+```
+```Fortran
+!$ACC KERNELS
+a(:) = 0.0
+!$ACC END KERNELS
+!$ACC PARALLEL LOOP
+do i = 1, n
+   a(i) = 0.0
+end do
+!$ACC END PARALLEL
+```
+
+</div>
+
 # Hands-on exercises I
 
 * See https://github.com/csc-training/esiwace-summerschool-2024/tree/main/B3/L9/exercises
@@ -886,40 +920,6 @@ end do
 #ifdef _OPENACC
    ! some post processing for GPU
 #endif
-```
-
-</div>
-
-# Kernels construct
-
-<div class=column style=width:68%>
-
-* Acc <span style="color: green;"> KERNELS</span> are similar to <span style="color: green;"> PARALLEL</span> regions
-* A kernels region gives the compiler maximum freedom of the parallel implementation
-* Might be better or much worse than manual parallelization
-* For ICON we don’t recommend the use of kernels
-* Implicit Fortran loops are possible in kernels, but might be slower than explicit loops in a parallel region (try example p_kernels)
-
-</div>
-
-<div class=column style=width:30%>
-
-```Fortran
-!$ACC KERNELS
-do i = 1, n
-   a(i) = 2.0 * b(i)
-end do
-!$ACC END KERNELS
-```
-```Fortran
-!$ACC KERNELS
-a(:) = 0.0
-!$ACC END KERNELS
-!$ACC PARALLEL LOOP
-do i = 1, n
-   a(i) = 0.0
-end do
-!$ACC END PARALLEL
 ```
 
 </div>
