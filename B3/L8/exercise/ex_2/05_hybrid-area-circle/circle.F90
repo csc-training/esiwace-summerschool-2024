@@ -42,7 +42,7 @@ implicit none
  ! TODO: define column limits per mpi process
 
  ! TODO: Use openmp to parallelize the estimation of the subdomain area per mpi process
- !       and finally calculate the total area of the circle
+ !       and finally calculate the total area of the circle (sum over processes)
  area_sub = 0.
  do j = 1,nyg
     do i = nxi,nxf

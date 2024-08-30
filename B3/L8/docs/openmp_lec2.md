@@ -236,7 +236,7 @@ MPI_Init_thread(`required`{.input}, `provided`{.output}, `err`{.output})
   **`MPI_THREAD_SINGLE`** < **`MPI_THREAD_FUNNELED`** < **`MPI_THREAD_SERIALIZED`** < **`MPI_THREAD_MULTIPLE`**
 
 
-# MPI thread support level
+# MPI thread support levels
 
 |                      |                                             |
 |----------------------|---------------------------------------------|
@@ -244,23 +244,6 @@ MPI_Init_thread(`required`{.input}, `provided`{.output}, `err`{.output})
 |MPI_THREAD_FUNNELED   | Multithreading, but MPI only on main thread |
 |MPI_THREAD_SERIALIZED | MPI from all threads, one at a time         |
 |MPI_THREAD_MULTIPLE   | No restrictions                             |
-
-
-# MPI thread support levels
-
-- Modern MPI libraries support all threading levels
-    - OpenMPI: Build time configuration, check with
-    ```bash
-    ompi_info | grep 'Thread support'
-    ```
-    - Intel MPI: When compiling with `-qopenmp` a thread safe version of the
-      MPI library is automatically used
-    - Cray MPI: Set **`MPICH_MAX_THREAD_SAFETY`** environment variable to
-      `single`, `funneled`, `serialized`, or `multiple` to select the
-      threading level
-- Note that using **`MPI_THREAD_MULTIPLE`** requires the MPI library to
-  internally lock some data structures to avoid race conditions
-    - may result in additional overhead in MPI calls
 
 
 # Hybrid programming styles: fine/coarse grained
@@ -325,6 +308,8 @@ END PROGRAM hello
 
 - `git clone https://github.com/csc-training/esiwace-summerschool-2024`  <br>
   (or update existing `git pull origin main`)
+
+- `cd B3/L8/exercises/ex_2`
 
 - Lunch ~12:00
 

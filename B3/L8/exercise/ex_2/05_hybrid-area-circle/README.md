@@ -7,4 +7,6 @@ threads for parallel looping of the grid points within each process. Finally com
 Try with different numbers of processes and threads and see how this affects the execution time. You can also try to change the number
 of grid points.
 
+Hint: for the OpenMP part, `omp parallel do collapse(2)` can be used to parallellize two nested loops.
+
 

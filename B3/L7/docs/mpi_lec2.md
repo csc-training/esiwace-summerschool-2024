@@ -63,7 +63,7 @@ MPI_IRecv(`buf`{.output}, `count`{.input}, `datatype`{.input}, `source`{.input},
 # Finalizing non-blocking communication {.split-definition}
 
 MPI_Wait(`request`{.input}, `status`{.output}, `err`{.output})
-  : type(MPI_Request) `request`{.input}
+  : integer `request`{.input}
     : Handle of the non-blocking communication
   : integer `status(MPI_STATUS_SIZE)`{.output}
     : Status of the completed communication, same as in **`MPI_Recv`**
@@ -105,7 +105,7 @@ MPI_Test(`request`{.input}, `flag`{.output}, `status`{.output}, `err`{.output})
 - Various types
     - Data  distribution
     - Collective computation -- reduction operations
-    - Synchronization
+    - Synchronization; `MPI_Barrier`
 
 
 
@@ -496,6 +496,8 @@ MPI_Alltoall(`sendbuf`{.input}, `sendcount`{.input}, `sendtype`{.input}, `recvbu
 
 - `git clone https://github.com/csc-training/esiwace-summerschool-2024`  <br>
   (or update existing `git pull origin main`)
+
+- `cd B3/L7/exercises/ex_2`
 
 - Lunch ~12:00
 

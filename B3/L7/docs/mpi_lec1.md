@@ -62,9 +62,6 @@ lang:   en
 </div>
 
 
-- Weak vs strong scaling: Increased parallelism associated with increasing problem size vs faster execution
-
-
 # Programming models {.section}
 
 # Programming models
@@ -146,7 +143,7 @@ CALL doStuff(a)
 # The MPI standard
 
 - Different vendors implementing the standard
-    - MPICH, openMPI, Cray ...
+    - MPICH, openMPI, ...
 - Portability -- works on a variety of platforms
 
 - Since 1994, latest version of the standard 4.1 (2023)
@@ -154,11 +151,8 @@ CALL doStuff(a)
 
 # The API 
 
-- Communcation routines
+- Communication routines
 - Execution control - synchronization
-- Advanced features
-	- User defined datatypes
-	- Communication topologies; custom *communicators*
 - == A Lot of stuff, but meaningful solutions can be built with a handful of tools
 
 
@@ -173,7 +167,7 @@ CALL doStuff(a)
 
 ![](img/batio.jpeg){.center width=40%}
 <p style="text-align:center">We're going to give You the keys to the Lamborghini</p>
-<p style="text-align:center">...but you're going to have to drive it!</p>
+<p style="text-align:center">...but you're also going to have to drive it!</p>
 
 
 # MPI programming {.section}
@@ -279,7 +273,7 @@ MPI_Comm_rank(`comm`{.input}, `rank`{.output}, `err`{.output})
 - MPI communicator
 
     - An object connecting a group of processes
-    - **MPI_COMM_WORLD** (includes all tasks in the invoked program)
+    - **MPI_COMM_WORLD** (includes all processes in the invoked program)
     - Carry information about the number of processes and process ranks
     - Possible to define custom communicators for other purposes
 
@@ -290,7 +284,6 @@ MPI_Comm_rank(`comm`{.input}, `rank`{.output}, `err`{.output})
 
 - Point-to-point communication
 - Collective communication
-- (One-sided communication)
 
 <br>
 
@@ -357,7 +350,7 @@ MPI_Recv(`buf`{.input},`count`{.input},`datatype`{.input},`source`{.input},`tag`
 
     ELSE IF (rank == dest) THEN
         CALL MPI_RECV(otherdata,msize,MPI_INTEGER,src, &
-                      tag_rcv,MPI_COMM_WORLD,st,err)
+                      tag_rcv,MPI_COMM_WORLD,MPI_STATUS_IGNORE,err)
     ...
 
     CALL MPI_FINALIZE(err)
@@ -403,6 +396,8 @@ MPI_Recv(`buf`{.input},`count`{.input},`datatype`{.input},`source`{.input},`tag`
 
 - `git clone https://github.com/csc-training/esiwace-summerschool-2024`  <br>
   (or update existing `git pull origin main`)
+
+- `cd B3/L7/exercises/ex_1`
 
 - Part II lecture at ~10:30
 

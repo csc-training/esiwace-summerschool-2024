@@ -25,12 +25,12 @@ lang:   en
 - Identify the most common pitfalls and ways to rectify them
 
 
-# Introduction to openMP {.section}
+# Introduction to OpenMP {.section}
 
 # Programming models
 
 - Distributed vs shared memory computation
-    - Tasks vs Threads
+    - Processes vs Threads
 
 ![](img/threads_vs_tasks.svg){.center width=90%}
 
@@ -510,7 +510,7 @@ DO i = 1,N
 END DO
 !$omp end do
 !$omp critical
-global = global + local
+global = global + loc
 !$omp end critical
 !$omp end parallel
 
@@ -540,6 +540,8 @@ global = global + local
 
 - `git clone https://github.com/csc-training/esiwace-summerschool-2024`  <br>
   (or update existing `git pull origin main`)
+
+- `cd B3/L8/exercises/ex_1`
 
 - Part II lecture ~10:30
 
