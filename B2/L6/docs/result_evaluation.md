@@ -87,14 +87,14 @@ Funky features in the model
 
 Let's load some model and ERA5 data
 
-```
+```python
 import intake
 import healpy as hp
 import matplotlib.pyplot as plt
 from easygems.healpix import attach_coords
 
 hera_cat = intake.open_catalog("https://tcodata.mpimet.mpg.de/internal.yaml")
-hera = hera_cat.HERA5.to_dask().pipe(attach_coords)
+hera = hera_cat.HERA5(chunks = 'auto').to_dask().pipe(attach_coords)
 # Contains modified Copernicus Climate Change Service information 2023. 
 # Neither the European Commission nor ECMWF is responsible for any use 
 # that may be made of the Copernicus information or data it contains.
@@ -102,7 +102,7 @@ hera = hera_cat.HERA5.to_dask().pipe(attach_coords)
 
 zoom = 7 
 cat = intake.open_catalog("https://data.nextgems-h2020.eu/online.yaml")
-icon = cat.ICON.ngc3028(zoom=zoom).to_dask().pipe(attach_coords)
+icon = cat.ICON.ngc3028(zoom=zoom, chunks = 'auto').to_dask().pipe(attach_coords)
 
 ```
 
