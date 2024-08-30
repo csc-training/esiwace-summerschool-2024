@@ -26,11 +26,11 @@ istat = curandDestroyGenerator(g)
 
 **Note!** In order to compile the code you need to link to the `curand` library by adding the extra options:  
 ```
--L/sw/spack-levante/nvhpc-22.5-v4oky3/Linux_x86_64/22.5/cuda/11.0/lib64/ -lcurand
+-L/sw/spack-levante/nvhpc-24.5-ipi3ad/Linux_x86_64/24.5/math_libs/12.4/lib64/ -lcurand
 ```
 
-Also, before running modify the `LD_LIBRARY_PATH` environmental variable:
+Furthermore before running modify the `LD_LIBRARY_PATH` environmental variable:
 ```
-export LD_LIBRARY_PATH=/sw/spack-levante/nvhpc-22.5-v4oky3/Linux_x86_64/22.5/cuda/11.0/lib64/:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/sw/spack-levante/nvhpc-24.5-ipi3ad/Linux_x86_64/24.5/math_libs/12.4/lib64/:$LD_LIBRARY_PATH
 ```
 
