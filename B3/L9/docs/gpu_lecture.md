@@ -1017,6 +1017,28 @@ end do
 * See https://github.com/csc-training/esiwace-summerschool-2024/tree/main/B3/L9/exercises
 * Profiling and performance optimisation
 
+# Interoperability with libraries (BONUS)
+
+<small>
+- Often it may be useful to integrate the accelerated OpenACC code with
+  other accelerated libraries
+- MPI,  CUBLAS, CUFFT, MAGMA, CULA...
+- to mix OpenACC and CUDA:
+    - Use OpenACC for memory management
+    - Introduce OpenACC in existing GPU code
+    - Use CUDA for tightest kernels, otherwise OpenACC
+ ```
+allocate(x(n), y(n))
+istat = curandCreateGenerator(g, CURAND_RNG_PSEUDO_DEFAULT)  ! initialize the rng
+
+!$acc data create(x(1:n), y(1:n)) copy(inside) copyin(n)
+!$acc host_data use_device(x, y)
+istat = curandGenerateUniform(g, x, n)
+istat = curandGenerateUniform(g, y, n)
+!$acc end host_data
+``` 
+</small>
+
 # OpenACC - OpenMP
 
 * Most OpenACC directives can be directly translated to OpenMP target directives:
