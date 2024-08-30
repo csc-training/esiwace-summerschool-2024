@@ -207,16 +207,16 @@ Solution: Vertical interpolation to the pressure levels of HERA.
 Solution: Vertical interpolation to the pressure levels of HERA.
 
 ```python
-def hacky_linear_interpolation(data, target_grid, target, dim="level_full"):
+def hacky_linear_interpolation(data, data_grid, target, dim="level_full"):
     from collections.abc import Iterable   
     
     if isinstance(target, Iterable) and len(target) > 1:
-        return np.array([hacky_linear_interpolation(data, target_grid, y, dim) for y in target ])
+        return np.array([hacky_linear_interpolation(data, data_grid, y, dim) for y in target ])
     else:
-        level_above = (target_grid > target).argmax(dim=dim)
+        level_above = (data_grid > target).argmax(dim=dim)
         level_below = level_above - 1
-        value_above = target_grid.isel(**{dim: level_above})
-        value_below = target_grid.isel(**{dim: level_below})
+        value_above = data_grid.isel(**{dim: level_above})
+        value_below = data_grid.isel(**{dim: level_below})
         f = (target - value_below) / (value_above - value_below)
         interpolated =  (1-f) * data.isel(**{dim: level_below}) + f * data.isel(**{dim: level_above})
         return np.where(level_above > 0, interpolated, np.nan)
@@ -224,7 +224,8 @@ def hacky_linear_interpolation(data, target_grid, target, dim="level_full"):
 
 # Wind speed zonal mean
 
-```
+```python
+target = hera.u.level.values
 interpolated = hacky_linear_interpolation(
     icon.ua.sel(time=timeslice).mean(dim='time').compute(), 
     icon.pfull.sel(time=timeslice).mean(dim='time').compute(), 
