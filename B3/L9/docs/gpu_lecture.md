@@ -1019,7 +1019,7 @@ end do
 
 # Interoperability with libraries (BONUS)
 
-<small>
+
 - Often it may be useful to integrate the accelerated OpenACC code with
   other accelerated libraries
 - MPI,  CUBLAS, CUFFT, MAGMA, CULA...
@@ -1027,7 +1027,9 @@ end do
     - Use OpenACC for memory management
     - Introduce OpenACC in existing GPU code
     - Use CUDA for tightest kernels, otherwise OpenACC
- ```
+
+```Fortran 
+ 
 allocate(x(n), y(n))
 istat = curandCreateGenerator(g, CURAND_RNG_PSEUDO_DEFAULT)  ! initialize the rng
 
@@ -1036,8 +1038,9 @@ istat = curandCreateGenerator(g, CURAND_RNG_PSEUDO_DEFAULT)  ! initialize the rn
 istat = curandGenerateUniform(g, x, n)
 istat = curandGenerateUniform(g, y, n)
 !$acc end host_data
-``` 
-</small>
+
+```  
+
 
 # OpenACC - OpenMP
 
