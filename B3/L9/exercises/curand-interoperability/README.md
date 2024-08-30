@@ -22,5 +22,5 @@ Here the vector `x` has to be a *device pointer*, so use correct `host_data` spe
 
 **Note!** In order to compile the code you need to link to the `curand` library by adding the extra options:  
 ```
--L/sw/spack-levante/nvhpc-22.5-v4oky3/Linux_x86_64/22.5/cuda/11.0/lib64/
+-L/sw/spack-levante/nvhpc-22.5-v4oky3/Linux_x86_64/22.5/cuda/11.0/lib64/ -lcurand
 ``` 
