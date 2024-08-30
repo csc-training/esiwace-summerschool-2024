@@ -188,6 +188,25 @@ end do
 
 </div>
 
+# How to compile OpenACC code for NVIDIA GPUs
+
+* Load the NVIDIA compiler:
+
+```
+module load nvhpc/24.5-gcc-13.3.0
+```
+
+* To compile your code to run on GPUs use:
+
+```
+nvfortran -Minfo=all -acc=gpu,verystrict -gpu=cc80 -o example example.F90
+```
+
+* `-Minfo=all`: get verbose output showing what the compiler actually does with the OpenACC directives
+* `-acc=gpu`: to parallelize and offload OpenACC regions to GPUs
+* (`verystrict`: instructs the compiler to fail with an error for any non-OpenACC accelerator directive)
+* `-gpu=cc80`: Specify the hardware architecture (NVIDIA A100 GPUs)
+
 # Hands-on exercises I
 
 * See https://github.com/csc-training/esiwace-summerschool-2024/tree/main/B3/L9/exercises
