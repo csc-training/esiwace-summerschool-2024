@@ -1,4 +1,4 @@
-program basic
+program chain
   use mpi
   use iso_fortran_env, only : REAL64
 
@@ -44,10 +44,11 @@ program basic
   ! TODO: Add here a synchronization call so that you can be sure
   !       that the message has been received
 
-  call mpi_get_count(status(1), MPI_INTEGER, count, err)
+  ! Use status parameter to find out the no. of elements received
+  call mpi_get_count(status(:,1), MPI_INTEGER, count, err)
   write(*,'(A10,I3,A20,I8,A,I3,A,I3)') 'Sender: ', myid, &
-       ' Sent elements: ', size, &
-       '. Tag: ', myid + 1,   & 
+       ' Sent elements: ', msgsize, &
+       '. Tag: ', myid + 1, &
        '. Receiver: ', destination
   write(*,'(A10,I3,A20,I8,A,I3,A,I3)') 'Receiver: ', myid, &
        'received elements: ', count, &
@@ -60,7 +61,6 @@ program basic
   call print_ordered(t1 - t0)
 
   call mpi_finalize(err)
-
 
 contains
 
@@ -83,4 +83,6 @@ contains
     end if
   end subroutine print_ordered
 
-end program basic
+
+
+end program chain
