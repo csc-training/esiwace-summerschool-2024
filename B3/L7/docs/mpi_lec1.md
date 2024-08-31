@@ -397,7 +397,7 @@ MPI_Recv(`buf`{.input},`count`{.input},`datatype`{.input},`source`{.input},`tag`
 - `git clone https://github.com/csc-training/esiwace-summerschool-2024`  <br>
   (or update existing `git pull origin main`)
 
-- `cd B3/L7/exercises/ex_1`
+- `cd B3/L7/exercise/ex_1`
 
 - Part II lecture at ~10:30
 

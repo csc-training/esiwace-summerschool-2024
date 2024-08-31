@@ -541,7 +541,7 @@ global = global + loc
 - `git clone https://github.com/csc-training/esiwace-summerschool-2024`  <br>
   (or update existing `git pull origin main`)
 
-- `cd B3/L8/exercises/ex_1`
+- `cd B3/L8/exercise/ex_1`
 
 - Part II lecture ~10:30
 

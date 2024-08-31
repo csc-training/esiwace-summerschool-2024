@@ -497,7 +497,7 @@ MPI_Alltoall(`sendbuf`{.input}, `sendcount`{.input}, `sendtype`{.input}, `recvbu
 - `git clone https://github.com/csc-training/esiwace-summerschool-2024`  <br>
   (or update existing `git pull origin main`)
 
-- `cd B3/L7/exercises/ex_2`
+- `cd B3/L7/exercise/ex_2`
 
 - Lunch ~12:00
 

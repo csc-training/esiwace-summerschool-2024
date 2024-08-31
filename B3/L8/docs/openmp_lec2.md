@@ -309,7 +309,7 @@ END PROGRAM hello
 - `git clone https://github.com/csc-training/esiwace-summerschool-2024`  <br>
   (or update existing `git pull origin main`)
 
-- `cd B3/L8/exercises/ex_2`
+- `cd B3/L8/exercise/ex_2`
 
 - Lunch ~12:00
 
