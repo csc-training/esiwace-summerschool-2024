@@ -9,7 +9,9 @@ program fibonacci
   n = 42
 
   t0 = omp_get_wtime()
+  ! TODO: Add parallellization
   res = fib(n)
+  ! TODO: end
   t1 = omp_get_wtime()
 
   write(*,*) "fib ", n, "=", res
@@ -23,13 +25,33 @@ program fibonacci
 
       if (n < 2) then
          f = n
+      else if (n < 30) then
+         f = ser_fib(n)
       else
+
+         ! TODO: Tasks creation?
          x = fib(n - 1)
          y = fib(n - 2)
+
+         ! TODO: taskwait? (both y and x needed next..)
          f = x + y
       end if
 
     end function fib
+
+    recursive function ser_fib(n) result(f)
+      implicit none
+      integer :: n, f, x, y
+
+      if (n < 2) then
+         f = n
+      else
+         x = ser_fib(n - 1)
+         y = ser_fib(n - 2)
+         f = x + y
+      end if
+
+    end function ser_fib
 
 end program fibonacci
   

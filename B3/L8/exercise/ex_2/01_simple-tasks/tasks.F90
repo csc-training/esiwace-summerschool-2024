@@ -8,8 +8,11 @@ program tasks
   array = 0
   write(*,'(A30, *(I3))') "Array at the beginning", array
 
-  ! TODO: launch threads and create tasks so that there 
+  ! TODO: launch threads and create tasks (krhm*in the loop*krhm) so that there 
   ! is one task per loop iteration
+
+  tid = omp_get_thread_num()
+  write(*,*) "Tasks created by", tid
   do i = 1, 4
     tid = omp_get_thread_num()
     array(i) = array(i) + tid

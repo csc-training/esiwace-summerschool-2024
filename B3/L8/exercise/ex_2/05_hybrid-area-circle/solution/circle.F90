@@ -38,8 +38,8 @@ implicit none
 
  call MPI_Comm_size(MPI_COMM_WORLD,pes,err)
  call MPI_Comm_rank(MPI_COMM_WORLD,myid,err)
- nx_per_pe = nxg/pes
- 
+
+ nx_per_pe = nxg/pes 
  nxi = myid * nx_per_pe + 1
  nxf = (myid + 1) * nx_per_pe
 
