@@ -20,7 +20,7 @@ program out_of_bounds
   s = 0.
 !$acc parallel loop reduction(+:s)
   do i = 1, n
-  ! caution out-of-bounds access. `compute-sanitizer` and point out this error
+  ! out-of-bounds access
      s = s + a(i+800)
   end do
 !$acc end parallel loop
