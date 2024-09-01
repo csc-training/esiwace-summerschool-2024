@@ -16,4 +16,4 @@ nvfortran -Minfo=all -acc=gpu,verystrict -gpu=cc80 -o hello hello.F90
 An example batch job script (`job.sh`) is provided and can be used to run the
 program.
 
-**Note** You can compile the code with `gfortran` as well owr with `nvfortran` without `-acc` flag. What will you get in this case?
+**Note** You can compile the code with `gfortran` or with `nvfortran` without `-acc` flag. What will you get in this case?
