@@ -335,6 +335,8 @@ ax = egh.create_geoaxis(projection=projection)
 egh.healpix_show(world, ax=ax)
 ```
 
+Here we are spacing the points equidistantly along the direct connection between the start and end in 3D space. This is **not** equidistant along the surface of earth. For that, you'd need to use a library/function giving you equidistant points along a great circle.
+
 # Saving figures
 
 ```python
