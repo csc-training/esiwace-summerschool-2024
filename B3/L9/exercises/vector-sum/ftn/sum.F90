@@ -19,7 +19,7 @@ program vectorsum
 
   ! TODO
   ! Implement vector addition on device with OpenACC 
-  ! vecC = vecA + vecB
+   vecC = vecA + vecB
 
   ! Compute the check value
   write(*,*) 'Reduction sum: ', sum(vecC)
