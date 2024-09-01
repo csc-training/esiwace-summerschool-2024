@@ -1012,11 +1012,6 @@ end do
   * synccheck : Synchronization checking
   * initcheck : Global memory initialization checking
 
-# Hands-on exercises III
-
-* See https://github.com/csc-training/esiwace-summerschool-2024/tree/main/B3/L9/exercises
-* Profiling and performance optimisation
-
 # Interoperability with libraries (BONUS)
 - Often it may be useful to integrate the accelerated OpenACC code with other accelerated libraries or CUDA code. 
 - MPI,  CUBLAS, CUFFT, MAGMA, CULA...
@@ -1033,7 +1028,6 @@ istat = curandGenerateUniform(g, y, n)
 !$acc end host_data
 ```  
 
-
 # OpenACC - OpenMP
 
 * Most OpenACC directives can be directly translated to OpenMP target directives:
@@ -1045,6 +1039,13 @@ istat = curandGenerateUniform(g, y, n)
 | `!$ACC DATA` | `!$OMP TARGET DATA` |
 | `!$ACC DATA COPYIN` | `!$OMP TARGET DATA MAP(TO:)` |
 | `!$ACC UPDATA HOST` | `!$OMP TARGET UPDATE FROM()` |
+
+# Hands-on exercises III
+
+* See https://github.com/csc-training/esiwace-summerschool-2024/tree/main/B3/L9/exercises
+* Profiling and performance optimisation
+* Debugging (Exercise 6)
+* Interoperability (Exercise 7, BONUS)
 
 # Any questions or comments? 
 
